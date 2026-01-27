@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HỆ THỐNG ĐẶT XE ÔM VÀ GIAO HÀNG VẶT – GIÁ PHÙ HỢP VỚI BẠN</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Geist:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --primary: linear-gradient(135deg, #00b14f 0%, #00d26a 100%);
+      --primary-dark: #008a3d;
+      --secondary: #6366f1;
+      --accent: #f43f5e;
+      --dark-bg: #0f172a;
+      --light-bg: #f8fafc;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --text-light: #64748b;
+      --shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+      --shadow-hover: 0 24px 48px rgba(0, 177, 79, 0.15);
+    }
+
+    body {
+      font-family: 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #eef2ff 100%);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 32px 20px 40px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 400px;
+      height: 400px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: -50%;
+      left: -10%;
+      width: 300px;
+      height: 300px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 50%;
+    }
+
+    header > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .header-content {
+      max-width: 620px;
+      margin: auto;
+      text-align: center;
+    }
+
+    .badge-vip {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(10px);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    header h1 {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    header p {
+      font-size: 15px;
+      opacity: 0.95;
+      font-weight: 500;
+    }
+
+    /* ===== CONTAINER ===== */
+    .container {
+      max-width: 620px;
+      margin: auto;
+      padding: 24px 18px 140px;
+    }
+
+    /* ===== CARD STYLES ===== */
+    .card {
+      background: white;
+      border-radius: 24px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+      backdrop-filter: blur(10px);
+      animation: cardSlideUp 0.6s ease-out forwards;
+      opacity: 0;
+    }
+
+    @keyframes cardSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.2s; }
+    .card:nth-child(3) { animation-delay: 0.3s; }
+    .card:nth-child(4) { animation-delay: 0.4s; }
+
+    .card:hover {
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-4px);
+    }
+
+    .card.dark {
+      background: var(--dark-bg);
+      color: white;
+    }
+
+    .card.dark .title,
+    .card.dark .name {
+      color: white;
+    }
+
+    .card.dark .desc {
+      color: #cbd5e1;
+    }
+
+    /* ===== STEP BADGE ===== */
+    .step {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+      color: var(--primary-dark);
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 14px;
+      border: 1px solid rgba(0, 177, 79, 0.2);
+    }
+
+    .step.pro {
+      background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+      color: #0284c7;
+      border-color: rgba(2, 132, 199, 0.2);
+    }
+
+    /* ===== TITLE ===== */
+    .title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 18px;
+      letter-spacing: -0.3px;
+      color: var(--text);
+    }
+
+    /* ===== INPUT STYLES ===== */
+    .input-wrapper {
+      position: relative;
+      margin-bottom: 14px;
+    }
+
+    .input,
+    select {
+      width: 100%;
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 14px 16px;
+      font-size: 15px;
+      font-family: inherit;
+      transition: all 0.3s ease;
+      background: white;
+    }
+
+    .input:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--secondary);
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+      background: #f8fbff;
+    }
+
+    .input::placeholder {
+      color: var(--text-light);
+    }
+
+    .row {
+      display: flex;
+      gap: 14px;
+    }
+
+    .row .input,
+    .row select {
+      flex: 1;
+    }
+
+    /* ===== PRICE BOX ===== */
+    .price-box {
+      background: linear-gradient(135deg, #f0f4ff 0%, #fdf2f8 100%);
+      border-radius: 18px;
+      padding: 20px;
+      font-size: 15px;
+      margin-bottom: 16px;
+      border: 2px solid rgba(99, 102, 241, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .price-box strong {
+      color: var(--accent);
+      font-size: 24px;
+      display: block;
+      font-weight: 800;
+    }
+
+    .price-label {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ===== SERVICE CARDS ===== */
+    .service {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      padding: 18px;
+      margin-bottom: 14px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+      min-height: 88px;
+      background: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(0, 177, 79, 0.05) 0%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .service:hover {
+      border-color: var(--secondary);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .service:hover::before {
+      opacity: 1;
+    }
+
+    .service > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .left {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex: 1;
+    }
+
+    .icon {
+      font-size: 36px;
+      min-width: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .name {
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--text);
+    }
+
+    .desc {
+      font-size: 13px;
+      color: var(--text-light);
+      margin-top: 4px;
+    }
+
+    .tag {
+      background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+      color: #92400e;
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+      border: 1px solid rgba(146, 64, 14, 0.1);
+    }
+
+    .tag.vip {
+      background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+      color: #0284c7;
+      border-color: rgba(2, 132, 199, 0.2);
+    }
+
+    .tag.hot {
+      background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+      color: #991b1b;
+      border-color: rgba(153, 27, 27, 0.2);
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      background: var(--primary);
+      color: white;
+      text-decoration: none;
+      padding: 16px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 16px;
+      margin-top: 14px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 24px rgba(0, 177, 79, 0.25);
+      position: relative;
+      overflow: hidden;
+      letter-spacing: 0.3px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 32px rgba(0, 177, 79, 0.35);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn.secondary {
+      background: var(--dark-bg);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.25);
+    }
+
+    .btn.secondary:hover {
+      box-shadow: 0 14px 32px rgba(15, 23, 42, 0.35);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* ===== STATS ===== */
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .stat-item {
+      background: linear-gradient(135deg, #f0f9ff 0%, #f0fdf4 100%);
+      border-radius: 16px;
+      padding: 16px;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--secondary);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-light);
+      margin-top: 6px;
+      font-weight: 600;
+    }
+
+    /* ===== FEATURE LIST ===== */
+    .features {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .feature-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .feature-item:last-child {
+      border-bottom: none;
+    }
+
+    .feature-icon {
+      font-size: 20px;
+      min-width: 24px;
+      color: var(--secondary);
+    }
+
+    .feature-text {
+      font-size: 14px;
+      flex: 1;
+    }
+
+    .feature-text strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .feature-text .sub {
+      font-size: 12px;
+      color: var(--text-light);
+    }
+
+    iframe {
+      width: 100%;
+      border: none;
+      border-radius: 18px;
+      height: 280px;
+    }
+
+    /* ===== PARTNER SECTION ===== */
+    .partner {
+      background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .partner::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 300px;
+      height: 300px;
+      background: rgba(99, 102, 241, 0.1);
+      border-radius: 50%;
+    }
+
+    .partner > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .partner .title {
+      color: white;
+    }
+
+    /* ===== STICKY FOOTER ===== */
+    .sticky {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: white;
+      border-top: 1px solid var(--border);
+      padding: 14px 18px;
+      display: flex;
+      gap: 12px;
+      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.08);
+      backdrop-filter: blur(10px);
+      z-index: 999;
+    }
+
+    .sticky a {
+      flex: 1;
+      padding: 14px;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-light);
+      padding: 24px 18px;
+      margin-top: 20px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 26px;
+      }
+
+      .title {
+        font-size: 18px;
+      }
+
+      .sticky {
+        padding: 12px 12px;
+      }
+
+      .sticky a {
+        padding: 12px;
+        font-size: 14px;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-content">
+    <div class="badge-vip">⭐ VIP PRO EDITION</div>
+    <h1>🚕 HỆ THỐNG ĐẶT XE ÔM VÀ GIAO HÀNG NHANH</h1>
+    <p>Nhanh hơn Grab – Rẻ hơn Be – Thân thiện hơn</p>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- BƯỚC 1: CHỌN DỊCH VỤ -->
+  <div class="card">
+    <div class="step">BƯỚC 1</div>
+    <div class="title">🚲 Chọn dịch vụ</div>
+
+    <div class="service" onclick="chonDichVu('Xe Wave / RSX', 1)">
+      <div class="left">
+        <div class="icon">🏍️</div>
+        <div>
+          <div class="name">Xe Wave / RSX</div>
+          <div class="desc">Tiết kiệm – sinh viên – linh hoạt</div>
+        </div>
+      </div>
+      <div class="tag">GIÁ RẺ</div>
+    </div>
+
+    <div class="service" onclick="chonDichVu('Xe SH', 1.3)">
+      <div class="left">
+        <div class="icon">🛵</div>
+        <div>
+          <div class="name">Xe SH Premium</div>
+          <div class="desc">Cao cấp – khách sạn – đi xa</div>
+        </div>
+      </div>
+      <div class="tag vip">VIP</div>
+    </div>
+
+    <div class="service" onclick="chonDichVu('Ship đồ / Giao vặt', 1)">
+      <div class="left">
+        <div class="icon">📦</div>
+        <div>
+          <div class="name">Ship đồ – Giao vặt</div>
+          <div class="desc">Đồ ăn, thuốc, mua hộ – Nhanh 30 phút</div>
+        </div>
+      </div>
+      <div class="tag hot">NHANH</div>
+    </div>
+  </div>
+
+  <!-- BƯỚC 2: NHẬP LỘ TRÌNH -->
+  <div class="card" id="loTrinh" style="display:none">
+    <div class="step">BƯỚC 2</div>
+    <div class="title">📍 Nhập lộ trình</div>
+
+    <div class="input-wrapper">
+      <input id="pickup" class="input" placeholder="Điểm đi (ví dụ: Cổng ĐH Tân Trào)">
+    </div>
+
+    <div class="input-wrapper">
+      <input id="dropoff" class="input" placeholder="Điểm đến (nhà trọ, quán ăn...)">
+    </div>
+
+    <div class="input-wrapper">
+      <input id="distance" class="input" type="number" step="0.1" placeholder="Số km" oninput="capNhatGia()">
+    </div>
+
+    <div class="row">
+      <select id="time" class="input" onchange="capNhatGia()">
+        <option value="1">🌞 Ban ngày (7:00 - 18:00)</option>
+        <option value="1.2">🌙 Ban đêm (18:00 - 7:00)</option>
+      </select>
+    </div>
+
+    <div class="price-box">
+      <div>
+        <div class="price-label">Giá dự kiến</div>
+        <strong id="giaDuKien">—</strong>
+      </div>
+    </div>
+
+    <a class="btn" href="javascript:guiZalo()">💬 ĐẶT NGAY QUA ZALO</a>
+    <a class="btn secondary" href="tel:0777893730">📞 GỌI NGAY</a>
+  </div>
+
+  <!-- VIP FEATURES -->
+  <div class="card">
+    <div class="step pro">✨ VIP PRO</div>
+    <div class="title">🎯 Tính năng Premium</div>
+
+    <div class="features">
+      <div class="feature-item">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-text">
+          <strong>Ưu tiên xếp hàng</strong>
+          <span class="sub">Được phục vụ trước các đơn khác</span>
+        </div>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-icon">🎁</div>
+        <div class="feature-text">
+          <strong>Khuyến mãi hàng tuần</strong>
+          <span class="sub">Giảm giá tới 30% cho thành viên VIP</span>
+        </div>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-icon">💳</div>
+        <div class="feature-text">
+          <strong>Thanh toán linh hoạt</strong>
+          <span class="sub">Tiền mặt, chuyển khoản, ví điện tử</span>
+        </div>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-icon">📞</div>
+        <div class="feature-text">
+          <strong>Hỗ trợ 24/7</strong>
+          <span class="sub">Chat & gọi hỗ trợ bất kỳ lúc nào</span>
+        </div>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-icon">🌟</div>
+        <div class="feature-text">
+          <strong>Điểm thưởng</strong>
+          <span class="sub">Tích 100 điểm = 1 chuyến miễn phí</span>
+        </div>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-icon">🛡️</div>
+        <div class="feature-text">
+          <strong>Bảo hiểm an toàn</strong>
+          <span class="sub">Bảo vệ cho mỗi chuyến đi</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="card">
+    <div class="title">📊 Thống kê dịch vụ</div>
+    <div class="stats">
+      <div class="stat-item">
+        <div class="stat-value">2.5K+</div>
+        <div class="stat-label">Khách hàng hài lòng</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">98%</div>
+        <div class="stat-label">Đánh giá sao</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KHU VỰC PHỤC VỤ -->
+  <div class="card">
+    <div class="step">🗺️ KHU VỰC</div>
+    <div class="title">Phục vụ quanh ĐH Tân Trào</div>
+    <iframe loading="lazy" src="https://www.google.com/maps?q=Đại%20học%20Tân%20Trào&output=embed"></iframe>
+  </div>
+
+  <!-- HỢP TÁC ĐỐI TÁC -->
+  <div class="card dark partner">
+    <div class="step pro">🤝 HỢP TÁC</div>
+    <div class="title">Nhà nghỉ – Quán ăn – Cửa hàng</div>
+    <p style="font-size: 15px; line-height: 1.6; margin-bottom: 16px;">Quét QR code – Gọi xe cho khách – Không cần app – Không phí nền tảng – Tăng doanh thu</p>
+    <a class="btn" href="https://zalo.me/0777893730">Đăng ký hợp tác ngay</a>
+  </div>
+
+</div>
+
+<!-- STICKY FOOTER -->
+<div class="sticky">
+  <a class="btn" href="javascript:guiZalo()">ĐẶT XE NGAY</a>
+  <a class="btn secondary" href="tel:0777893730">GỌI NGAY</a>
+</div>
+
+<footer>
+  © 2024 Xe Ôm & Ship Tân Trào – Nền tảng gọi xe địa phương
+</footer>
+
+<script>
+  const PHONE = "0777893730";
+  let dichVuDangChon = null;
+  let heSoDichVu = 1;
+
+  function chonDichVu(ten, heSo) {
+    dichVuDangChon = ten;
+    heSoDichVu = heSo;
+    document.getElementById('loTrinh').style.display = 'block';
+    document.getElementById('loTrinh').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function tinhGia(km, heSo) {
+    km = Number(km);
+    let gia = 0;
+    if (km <= 2) gia = 15000;
+    else if (km <= 5) gia = 15000 + (km - 2) * 5000;
+    else if (km <= 10) gia = 15000 + 3 * 5000 + (km - 5) * 7000;
+    else gia = 15000 + 3 * 5000 + 5 * 7000 + (km - 10) * 10000;
+    return Math.round(gia * heSo);
+  }
+
+  function capNhatGia() {
+    const km = document.getElementById('distance').value;
+    if (!km || !dichVuDangChon) {
+      document.getElementById('giaDuKien').innerText = '—';
+      return;
+    }
+    const time = Number(document.getElementById('time').value);
+    const gia = tinhGia(km, heSoDichVu * time);
+    document.getElementById('giaDuKien').innerText = gia.toLocaleString() + ' ₫';
+  }
+
+  function guiZalo() {
+    const pickup = document.getElementById('pickup').value || 'Cổng ĐH Tân Trào';
+    const dropoff = document.getElementById('dropoff').value || '...';
+    const km = document.getElementById('distance').value || '0';
+    const timeTxt = document.getElementById('time').selectedOptions[0].text;
+    const gia = document.getElementById('giaDuKien').innerText;
+
+    const msg = `🚀 ${dichVuDangChon}
+📍 Đón: ${pickup}
+🎯 Đến: ${dropoff}
+📏 ${km} km
+⏰ ${timeTxt}
+💰 Giá dự kiến: ${gia}`;
+
+    window.open(`https://zalo.me/${PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
+  }
+</script>
+
+</body>
+</html>
