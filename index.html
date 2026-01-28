@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HỆ THỐNG ĐẶT XE ÔM VÀ GIAO HÀNG VẶT – GIÁ PHÙ HỢP VỚI BẠN</title>
+  <title>VeGo – Xe ôm & Giao hàng – Đặt xe nhanh – Giá rẻ</title>
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Geist:wght@400;500&display=swap" rel="stylesheet">
@@ -142,6 +142,8 @@
     .card:nth-child(2) { animation-delay: 0.2s; }
     .card:nth-child(3) { animation-delay: 0.3s; }
     .card:nth-child(4) { animation-delay: 0.4s; }
+    .card:nth-child(5) { animation-delay: 0.5s; }
+    .card:nth-child(6) { animation-delay: 0.6s; }
 
     .card:hover {
       box-shadow: var(--shadow-hover);
@@ -209,6 +211,11 @@
       font-family: inherit;
       transition: all 0.3s ease;
       background: white;
+    }
+
+    textarea.input {
+      font-family: inherit;
+      resize: vertical;
     }
 
     .input:focus,
@@ -476,6 +483,225 @@
       height: 280px;
     }
 
+    /* ===== RATING STYLES ===== */
+    .rating-summary {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 24px;
+      margin-bottom: 32px;
+      padding: 20px;
+      background: linear-gradient(135deg, #f8f9ff 0%, #fff5f7 100%);
+      border-radius: 18px;
+      border: 1px solid rgba(99, 102, 241, 0.1);
+    }
+
+    .rating-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .rating-score {
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--secondary);
+      line-height: 1;
+    }
+
+    .rating-stars {
+      font-size: 20px;
+      margin: 8px 0;
+      letter-spacing: 2px;
+    }
+
+    .rating-count {
+      font-size: 13px;
+      color: var(--text-light);
+      font-weight: 600;
+    }
+
+    .rating-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .bar-item {
+      display: grid;
+      grid-template-columns: 40px 1fr 45px;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .bar-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      text-align: left;
+    }
+
+    .bar-container {
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #00b14f 0%, #00d26a 100%);
+      border-radius: 999px;
+      transition: width 0.5s ease;
+    }
+
+    .bar-percent {
+      font-size: 12px;
+      color: var(--text-light);
+      font-weight: 600;
+      text-align: right;
+    }
+
+    .rating-form-section {
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .form-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+
+    .star-input {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .star-btn {
+      font-size: 40px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      filter: grayscale(100%);
+      opacity: 0.4;
+    }
+
+    .star-btn:hover {
+      transform: scale(1.2);
+      filter: grayscale(0%);
+      opacity: 1;
+    }
+
+    .star-btn.active {
+      filter: grayscale(0%);
+      opacity: 1;
+      animation: starPop 0.3s ease;
+    }
+
+    @keyframes starPop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+      100% { transform: scale(1.1); }
+    }
+
+    .star-feedback {
+      background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+      border: 1px solid rgba(0, 177, 79, 0.2);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .star-feedback p {
+      color: #166534;
+      font-weight: 600;
+      font-size: 14px;
+      margin: 0;
+    }
+
+    .comments-section {
+      margin-top: 20px;
+    }
+
+    .comments-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .comment-item {
+      background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+      border-radius: 14px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      animation: commentSlide 0.4s ease;
+    }
+
+    @keyframes commentSlide {
+      from {
+        opacity: 0;
+        transform: translateX(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .comment-name {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .comment-stars {
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    .comment-text {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+
+    .comment-time {
+      font-size: 11px;
+      color: var(--text-light);
+    }
+
+    .no-comments {
+      text-align: center;
+      padding: 20px;
+      color: var(--text-light);
+      font-size: 14px;
+    }
+
     /* ===== PARTNER SECTION ===== */
     .partner {
       background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
@@ -556,6 +782,19 @@
       .stats {
         grid-template-columns: 1fr;
       }
+
+      .rating-summary {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .star-input {
+        gap: 12px;
+      }
+
+      .star-btn {
+        font-size: 32px;
+      }
     }
   </style>
 </head>
@@ -563,9 +802,9 @@
 
 <header>
   <div class="header-content">
-    <div class="badge-vip">⭐ VIP PRO EDITION</div>
-    <h1>🚕 HỆ THỐNG ĐẶT XE ÔM VÀ GIAO HÀNG NHANH</h1>
-    <p>Nhanh hơn Grab – Rẻ hơn Be – Thân thiện hơn</p>
+    <div class="badge-vip">⭐ VeGo Tuyên Quang </div>
+    <h1>🚕 VeGo – Xe ôm & Giao hàng</h1>
+    <p>Nhanh – Rẻ – Thân thiện</p>
   </div>
 </header>
 
@@ -576,33 +815,33 @@
     <div class="step">BƯỚC 1</div>
     <div class="title">🚲 Chọn dịch vụ</div>
 
-    <div class="service" onclick="chonDichVu('Xe Wave / RSX', 1)">
+    <div class="service" onclick="chonDichVu('Xe Wave / RSX')">
       <div class="left">
         <div class="icon">🏍️</div>
         <div>
-          <div class="name">Xe Wave / RSX</div>
+          <div class="name"> VeGo Bike – Xe Wave / RSX</div>
           <div class="desc">Tiết kiệm – sinh viên – linh hoạt</div>
         </div>
       </div>
       <div class="tag">GIÁ RẺ</div>
     </div>
 
-    <div class="service" onclick="chonDichVu('Xe SH', 1.3)">
+    <div class="service" onclick="chonDichVu('Xe SH')">
       <div class="left">
         <div class="icon">🛵</div>
         <div>
-          <div class="name">Xe SH Premium</div>
+          <div class="name"> VeGo Bike – Xe SH Premium</div>
           <div class="desc">Cao cấp – khách sạn – đi xa</div>
         </div>
       </div>
       <div class="tag vip">VIP</div>
     </div>
 
-    <div class="service" onclick="chonDichVu('Ship đồ / Giao vặt', 1)">
+    <div class="service" onclick="chonDichVu('Ship đồ / Giao vặt')">
       <div class="left">
         <div class="icon">📦</div>
         <div>
-          <div class="name">Ship đồ – Giao vặt</div>
+          <div class="name">VeGo Ship – đồ – Giao vặt</div>
           <div class="desc">Đồ ăn, thuốc, mua hộ – Nhanh 30 phút</div>
         </div>
       </div>
@@ -629,8 +868,8 @@
 
     <div class="row">
       <select id="time" class="input" onchange="capNhatGia()">
-        <option value="1">🌞 Ban ngày (7:00 - 18:00)</option>
-        <option value="1.2">🌙 Ban đêm (18:00 - 7:00)</option>
+        <option value="day">🌞 Ban ngày (6:00 - 22:00)</option>
+        <option value="night">🌙 Ban đêm (22:00 - 6:00 sáng) +20% / +15%</option>
       </select>
     </div>
 
@@ -706,12 +945,95 @@
     <div class="title">📊 Thống kê dịch vụ</div>
     <div class="stats">
       <div class="stat-item">
-        <div class="stat-value">2.5K+</div>
-        <div class="stat-label">Khách hàng hài lòng</div>
+        <div class="stat-value" id="soNguoiDG">54</div>
+        <div class="stat-label">Đánh giá</div>
       </div>
       <div class="stat-item">
-        <div class="stat-value">98%</div>
-        <div class="stat-label">Đánh giá sao</div>
+        <div class="stat-value" id="diemDG">4.8</div>
+        <div class="stat-label">⭐ Xếp hạng</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ĐÁNH GIÁ DỊCH VỤ -->
+  <div class="card">
+    <div class="title">⭐ Đánh giá từ khách hàng</div>
+    
+    <div class="rating-summary">
+      <div class="rating-left">
+        <div class="rating-score" id="scoreDisplay">4.8</div>
+        <div class="rating-stars" id="starsDisplay">⭐⭐⭐⭐⭐</div>
+        <div class="rating-count" id="countDisplay">54 đánh giá</div>
+      </div>
+      <div class="rating-bars">
+        <div class="bar-item">
+          <span class="bar-label">5 ⭐</span>
+          <div class="bar-container">
+            <div class="bar-fill" id="bar5" style="width: 85%"></div>
+          </div>
+          <span class="bar-percent" id="percent5">85%</span>
+        </div>
+        <div class="bar-item">
+          <span class="bar-label">4 ⭐</span>
+          <div class="bar-container">
+            <div class="bar-fill" id="bar4" style="width: 12%"></div>
+          </div>
+          <span class="bar-percent" id="percent4">12%</span>
+        </div>
+        <div class="bar-item">
+          <span class="bar-label">3 ⭐</span>
+          <div class="bar-container">
+            <div class="bar-fill" id="bar3" style="width: 2%"></div>
+          </div>
+          <span class="bar-percent" id="percent3">2%</span>
+        </div>
+        <div class="bar-item">
+          <span class="bar-label">2 ⭐</span>
+          <div class="bar-container">
+            <div class="bar-fill" id="bar2" style="width: 1%"></div>
+          </div>
+          <span class="bar-percent" id="percent2">1%</span>
+        </div>
+        <div class="bar-item">
+          <span class="bar-label">1 ⭐</span>
+          <div class="bar-container">
+            <div class="bar-fill" id="bar1" style="width: 0%"></div>
+          </div>
+          <span class="bar-percent" id="percent1">0%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="rating-form-section">
+      <h3 class="form-title">Bạn cảm thấy thế nào về dịch vụ?</h3>
+      <div class="star-input" id="starInput">
+        <span class="star-btn" onclick="chonSao(1)" data-star="1">☆</span>
+        <span class="star-btn" onclick="chonSao(2)" data-star="2">☆</span>
+        <span class="star-btn" onclick="chonSao(3)" data-star="3">☆</span>
+        <span class="star-btn" onclick="chonSao(4)" data-star="4">☆</span>
+        <span class="star-btn" onclick="chonSao(5)" data-star="5">☆</span>
+      </div>
+      
+      <div id="formBinhLuan" style="display:none; margin-top: 16px;">
+        <input id="tenKhachHang" class="input" placeholder="Họ tên (không bắt buộc)" style="margin-bottom: 12px;">
+        <textarea id="noiDungBinhLuan" class="input" placeholder="Chia sẻ trải nghiệm của bạn..." style="resize: vertical; min-height: 100px; margin-bottom: 12px;"></textarea>
+        <button class="btn" onclick="guiBinhLuan()" style="margin-top: 0;">Gửi đánh giá</button>
+        <button class="btn secondary" onclick="huySoThao()" style="margin-top: 10px;">Hủy</button>
+      </div>
+
+      <div class="star-feedback" id="starFeedback" style="display:none">
+        <p id="feedbackText">Cảm ơn bạn đã đánh giá! 🙏</p>
+      </div>
+
+      <div class="star-feedback" style="background: #fee2e2; border-color: rgba(153, 27, 27, 0.2); display:none;" id="errorFeedback">
+        <p id="errorText">Lỗi</p>
+      </div>
+    </div>
+
+    <div class="comments-section">
+      <h3 class="form-title">Nhận xét gần đây</h3>
+      <div id="commentsList" class="comments-list">
+        <!-- Comments sẽ được load ở đây -->
       </div>
     </div>
   </div>
@@ -740,39 +1062,322 @@
 </div>
 
 <footer>
-  © 2024 Xe Ôm & Ship Tân Trào – Nền tảng gọi xe địa phương
+  © 2024 VeGo – Xe ôm & Giao hàng – Nền tảng gọi xe địa phương
 </footer>
 
 <script>
   const PHONE = "0777893730";
   let dichVuDangChon = null;
   let heSoDichVu = 1;
+  let starDangChon = 0;
+  let lastRatingTime = 0;
+  const SPAM_LIMIT = 60000; // 60 giây chống spam
 
-  function chonDichVu(ten, heSo) {
-    dichVuDangChon = ten;
-    heSoDichVu = heSo;
-    document.getElementById('loTrinh').style.display = 'block';
-    document.getElementById('loTrinh').scrollIntoView({ behavior: 'smooth' });
+  // Dữ liệu đánh giá mẫu
+  const mocsampleComments = [
+    { name: "Nguyễn Văn A", stars: 5, text: "Tài xế thân thiện, xe sạch sẽ. Rất hài lòng với dịch vụ!" },
+    { name: "Trần Thị B", stars: 5, text: "Giá rẻ hơn Grab, chất lượng không kém. Sẽ tiếp tục sử dụng." },
+    { name: "Lê Văn C", stars: 4, text: "Tốt nhưng chờ xe hơi lâu một chút. Nhìn chung ổn." },
+  ];
+
+  // Dữ liệu đánh giá lưu trữ
+  let ratingData = {
+    totalRatings: 54,
+    totalScore: 259, // 4.8 * 54
+    distribution: { 5: 46, 4: 6, 3: 1, 2: 1, 1: 0 },
+    comments: [...mocsampleComments]
+  };
+
+  // Khôi phục dữ liệu từ localStorage
+  function loadRatingData() {
+    const saved = localStorage.getItem('ratingData');
+    if (saved) {
+      ratingData = JSON.parse(saved);
+    }
+    
+    // Kiểm tra thời gian đánh giá cuối cùng
+    const lastTime = localStorage.getItem('lastRatingTime');
+    if (lastTime) {
+      lastRatingTime = parseInt(lastTime);
+    }
   }
 
-  function tinhGia(km, heSo) {
+  // Lưu dữ liệu vào localStorage
+  function saveRatingData() {
+    localStorage.setItem('ratingData', JSON.stringify(ratingData));
+    localStorage.setItem('lastRatingTime', Date.now().toString());
+    lastRatingTime = Date.now();
+  }
+
+  // Kiểm tra chống spam
+  function kiemTraSpam() {
+    const now = Date.now();
+    if (now - lastRatingTime < SPAM_LIMIT) {
+      const timeRemain = Math.ceil((SPAM_LIMIT - (now - lastRatingTime)) / 1000);
+      showError(`⏳ Bạn phải chờ ${timeRemain} giây trước khi đánh giá lại. Chúng tôi chỉ cho phép 1 đánh giá mỗi phút để đảm bảo chất lượng.`);
+      return false;
+    }
+    return true;
+  }
+
+  // Hiển thị lỗi
+  function showError(msg) {
+    const errorDiv = document.getElementById('errorFeedback');
+    const errorText = document.getElementById('errorText');
+    errorText.innerText = msg;
+    errorDiv.style.display = 'block';
+    setTimeout(() => {
+      errorDiv.style.display = 'none';
+    }, 4000);
+  }
+
+  // Cập nhật hiển thị đánh giá
+  function capNhatHienThiDanhGia() {
+    const total = ratingData.totalRatings;
+    const score = total === 0 ? 0 : (ratingData.totalScore / total).toFixed(1);
+    const dist = ratingData.distribution;
+
+    // Cập nhật thống kê
+    document.getElementById('soNguoiDG').innerText = total;
+    document.getElementById('diemDG').innerText = score;
+    document.getElementById('scoreDisplay').innerText = score;
+    document.getElementById('countDisplay').innerText = total + ' đánh giá';
+
+    // Cập nhật sao
+    const starCount = Math.round(score);
+    let stars = '';
+    for (let i = 0; i < starCount; i++) stars += '⭐';
+    document.getElementById('starsDisplay').innerText = stars;
+
+    // Cập nhật biểu đồ thanh
+    for (let i = 5; i >= 1; i--) {
+      const count = dist[i] || 0;
+      const percent = total === 0 ? 0 : Math.round((count / total) * 100);
+      document.getElementById('bar' + i).style.width = percent + '%';
+      document.getElementById('percent' + i).innerText = percent + '%';
+    }
+
+    // Cập nhật bình luận
+    loadComments();
+  }
+
+  // Chọn sao đánh giá
+  function chonSao(stars) {
+    starDangChon = stars;
+    
+    // Cập nhật giao diện sao
+    document.querySelectorAll('.star-btn').forEach(btn => {
+      const btnStars = parseInt(btn.dataset.star);
+      if (btnStars <= stars) {
+        btn.classList.add('active');
+        btn.innerText = '★';
+      } else {
+        btn.classList.remove('active');
+        btn.innerText = '☆';
+      }
+    });
+
+    // Hiển thị form viết bình luận
+    document.getElementById('formBinhLuan').style.display = 'block';
+  }
+
+  // Gửi bình luận
+  function guiBinhLuan() {
+    // Kiểm tra spam
+    if (!kiemTraSpam()) {
+      return;
+    }
+
+    if (starDangChon === 0) {
+      showError('❌ Vui lòng chọn số sao trước!');
+      return;
+    }
+
+    const noiDung = document.getElementById('noiDungBinhLuan').value.trim();
+    const ten = document.getElementById('tenKhachHang').value.trim() || 'Khách hàng';
+
+    // Kiểm tra nội dung
+    if (noiDung.length < 5) {
+      showError('❌ Bình luận phải có ít nhất 5 ký tự!');
+      return;
+    }
+
+    if (noiDung.length > 500) {
+      showError('❌ Bình luận không được vượt quá 500 ký tự!');
+      return;
+    }
+
+    // Kiểm tra spam bình luận (cùng nội dung)
+    const isDuplicate = ratingData.comments.some(c => c.text === noiDung);
+    if (isDuplicate) {
+      showError('⚠️ Bình luận này đã tồn tại. Vui lòng viết bình luận mới!');
+      return;
+    }
+
+    // Cập nhật dữ liệu
+    ratingData.totalRatings++;
+    ratingData.totalScore += starDangChon;
+    ratingData.distribution[starDangChon] = (ratingData.distribution[starDangChon] || 0) + 1;
+
+    // Thêm bình luận
+    ratingData.comments.unshift({
+      name: ten,
+      stars: starDangChon,
+      text: noiDung
+    });
+
+    // Lưu và cập nhật
+    saveRatingData();
+    capNhatHienThiDanhGia();
+
+    // Hiển thị thông báo cảm ơn
+    document.getElementById('starFeedback').style.display = 'block';
+    const messages = [
+      'Cảm ơn bạn đã đánh giá! 🙏',
+      'Phản hồi của bạn rất hữu ích! 💪',
+      'Chúng tôi sẽ cố gắng làm tốt hơn! ✨',
+      'Cảm ơn sự hỗ trợ của bạn! 🎉'
+    ];
+    const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+    document.getElementById('feedbackText').innerText = randomMsg;
+
+    // Reset form
+    setTimeout(() => {
+      document.getElementById('starFeedback').style.display = 'none';
+      huySoThao();
+    }, 2500);
+  }
+
+  // Hủy soạn thảo
+  function huySoThao() {
+    document.getElementById('noiDungBinhLuan').value = '';
+    document.getElementById('tenKhachHang').value = '';
+    document.getElementById('formBinhLuan').style.display = 'none';
+    document.querySelectorAll('.star-btn').forEach(btn => {
+      btn.classList.remove('active');
+      btn.innerText = '☆';
+    });
+    starDangChon = 0;
+  }
+
+  // Tải bình luận
+  function loadComments() {
+    const commentsList = document.getElementById('commentsList');
+    commentsList.innerHTML = '';
+
+    if (ratingData.comments.length === 0) {
+      commentsList.innerHTML = '<div class="no-comments">Chưa có đánh giá nào. Hãy là người đầu tiên!</div>';
+      return;
+    }
+
+    // Hiển thị 5 bình luận gần đây nhất
+    ratingData.comments.slice(0, 5).forEach(comment => {
+      const stars = '⭐'.repeat(comment.stars);
+      const html = `
+        <div class="comment-item">
+          <div class="comment-header">
+            <div class="comment-name">${comment.name}</div>
+            <div class="comment-stars">${stars}</div>
+          </div>
+          <div class="comment-text">${comment.text}</div>
+          <div class="comment-time">Gần đây</div>
+        </div>
+      `;
+      commentsList.innerHTML += html;
+    });
+  }
+
+  function chonDichVu(ten) {
+    dichVuDangChon = ten;
+    document.getElementById('loTrinh').style.display = 'block';
+    document.getElementById('loTrinh').scrollIntoView({ behavior: 'smooth' });
+    capNhatGia(); // Cập nhật giá ngay khi chọn dịch vụ
+  }
+
+  function tinhGia(km, dichVu, isDemTreKhong) {
     km = Number(km);
+    if (km <= 0) return 0;
+    
     let gia = 0;
-    if (km <= 2) gia = 15000;
-    else if (km <= 5) gia = 15000 + (km - 2) * 5000;
-    else if (km <= 10) gia = 15000 + 3 * 5000 + (km - 5) * 7000;
-    else gia = 15000 + 3 * 5000 + 5 * 7000 + (km - 10) * 10000;
-    return Math.round(gia * heSo);
+    let basePrice = 0;      // 2km đầu
+    let price2To5 = 0;      // trên 2km đến 5km
+    let price5To10 = 0;     // trên 5km đến 10km
+    let priceOver10 = 0;    // trên 10km
+
+    // Xác định giá theo loại dịch vụ
+    if (dichVu === 'Xe Wave / RSX') {
+      basePrice = 15000;    
+      price2To5 = 5000;     
+      price5To10 = 7000;    
+      priceOver10 = 10000;  
+    } else if (dichVu === 'Xe SH') {
+      basePrice = 20000;    
+      price2To5 = 7000;     
+      price5To10 = 9000;    
+      priceOver10 = 11000;  
+    } else if (dichVu === 'Ship đồ / Giao vặt') {
+      basePrice = 15000;    
+      price2To5 = 5000;     
+      price5To10 = 7000;    
+      priceOver10 = 10000;  
+    }
+
+    // Tính giá cơ bản theo quãng đường
+    if (km <= 2) {
+      gia = basePrice;
+    } else if (km <= 5) {
+      // 2km đầu: basePrice, phần còn lại (km - 2): price2To5/km
+      gia = basePrice + (km - 2) * price2To5;
+    } else if (km <= 10) {
+      // 2km đầu: basePrice, 3km tiếp theo (2-5km): 3 * price2To5, phần còn lại (km - 5): price5To10/km
+      gia = basePrice + 3 * price2To5 + (km - 5) * price5To10;
+    } else {
+      // 2km đầu: basePrice, 3km (2-5km): 3 * price2To5, 5km (5-10km): 5 * price5To10, phần còn lại (km - 10): priceOver10/km
+      gia = basePrice + 3 * price2To5 + 5 * price5To10 + (km - 10) * priceOver10;
+    }
+
+    // Áp dụng hệ số ban đêm (22h-6h)
+    if (isDemTreKhong) {
+      if (dichVu === 'Ship đồ / Giao vặt') {
+        gia = gia * 1.15; // +15%
+      } else {
+        gia = gia * 1.20; // +20%
+      }
+    }
+
+    return Math.round(gia);
   }
 
   function capNhatGia() {
-    const km = document.getElementById('distance').value;
-    if (!km || !dichVuDangChon) {
+    const kmRaw = document.getElementById('distance').value;
+    const km = parseFloat(kmRaw);
+
+    // Nếu chưa có km hợp lệ, hiển thị — và dừng
+    if (!km || isNaN(km) || km <= 0) {
       document.getElementById('giaDuKien').innerText = '—';
       return;
     }
-    const time = Number(document.getElementById('time').value);
-    const gia = tinhGia(km, heSoDichVu * time);
+    
+    // Xác định có phải ban đêm theo lựa chọn người dùng; nếu người dùng không chọn, fallback vào giờ hiện tại
+    let isDemTreKhong = false;
+    const timeSelect = document.getElementById('time');
+    if (timeSelect && timeSelect.value === 'night') {
+      isDemTreKhong = true;
+    } else {
+      const now = new Date();
+      const hours = now.getHours();
+      if (hours >= 22 || hours < 6) {
+        isDemTreKhong = true;
+      }
+    }
+
+    // Nếu người dùng chưa chọn dịch vụ thì mặc định tạm 'Xe Wave / RSX' để có giá ước tính ngay khi nhập km
+    if (!dichVuDangChon) {
+      // Không thay đổi giao diện, chỉ đặt giá trị nội bộ để tính toán
+      dichVuDangChon = 'Xe Wave / RSX';
+    }
+
+    const gia = tinhGia(km, dichVuDangChon, isDemTreKhong);
     document.getElementById('giaDuKien').innerText = gia.toLocaleString() + ' ₫';
   }
 
@@ -780,7 +1385,8 @@
     const pickup = document.getElementById('pickup').value || 'Cổng ĐH Tân Trào';
     const dropoff = document.getElementById('dropoff').value || '...';
     const km = document.getElementById('distance').value || '0';
-    const timeTxt = document.getElementById('time').selectedOptions[0].text;
+    const timeSelect = document.getElementById('time');
+    const timeTxt = timeSelect.selectedOptions[0].text;
     const gia = document.getElementById('giaDuKien').innerText;
 
     const msg = `🚀 ${dichVuDangChon}
@@ -792,6 +1398,12 @@
 
     window.open(`https://zalo.me/${PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
   }
+
+  // Khởi tạo khi trang load
+  window.addEventListener('DOMContentLoaded', () => {
+    loadRatingData();
+    capNhatHienThiDanhGia();
+  });
 </script>
 
 </body>
