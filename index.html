@@ -1095,6 +1095,40 @@
   let lastQuote = null;
   const PROFILE_KEY = 'vegoCustomerProfile';
   const ORDER_KEY = 'vegoOrders';
+  const storageFallback = {};
+
+  // Một số trình duyệt chặn localStorage khi mở file HTML trực tiếp.
+  // Cookie là phương án dự phòng để dữ liệu vẫn tồn tại sau khi tải lại.
+  function storageGet(key){
+    try {
+      const value = window.localStorage.getItem(key);
+      if(value !== null) return value;
+    } catch(error) {}
+    try {
+      const prefix = `${encodeURIComponent(key)}=`;
+      const item = document.cookie.split('; ').find(row => row.startsWith(prefix));
+      if(item) return decodeURIComponent(item.slice(prefix.length));
+    } catch(error) {}
+    return storageFallback[key] || null;
+  }
+
+  function storageSet(key, value){
+    storageFallback[key] = value;
+    try {
+      window.localStorage.setItem(key, value);
+      return true;
+    } catch(error) {}
+    try {
+      document.cookie = `${encodeURIComponent(key)}=${encodeURIComponent(value)}; max-age=31536000; path=/; SameSite=Lax`;
+      return true;
+    } catch(error) { return false; }
+  }
+
+  function storageRemove(key){
+    delete storageFallback[key];
+    try { window.localStorage.removeItem(key); } catch(error) {}
+    try { document.cookie = `${encodeURIComponent(key)}=; max-age=0; path=/; SameSite=Lax`; } catch(error) {}
+  }
 
   const configs = {
     ride: {
@@ -1256,13 +1290,13 @@
 
   function saveQuote(){
     if(!lastQuote) return;
-    const history = JSON.parse(localStorage.getItem('vegoQuoteHistory') || '[]');
+    const history = JSON.parse(storageGet('vegoQuoteHistory') || '[]');
     history.unshift(lastQuote);
-    localStorage.setItem('vegoQuoteHistory', JSON.stringify(history.slice(0, 12)));
+    storageSet('vegoQuoteHistory', JSON.stringify(history.slice(0, 12)));
   }
 
   function getOrders(){
-    try { return JSON.parse(localStorage.getItem(ORDER_KEY) || '[]'); }
+    try { return JSON.parse(storageGet(ORDER_KEY) || '[]'); }
     catch { return []; }
   }
 
@@ -1277,7 +1311,7 @@
       total: lastQuote.total,
       createdAt: now.toISOString()
     });
-    localStorage.setItem(ORDER_KEY, JSON.stringify(orders.slice(0, 12)));
+    storageSet(ORDER_KEY, JSON.stringify(orders.slice(0, 12)));
     renderOrders();
   }
 
@@ -1311,7 +1345,7 @@
   }
 
   function renderHistory(){
-    const history = JSON.parse(localStorage.getItem('vegoQuoteHistory') || '[]');
+    const history = JSON.parse(storageGet('vegoQuoteHistory') || '[]');
     $('historyContent').innerHTML = history.length
       ? `<div class="history-list">${history.map(item => {
           const when = new Date(item.createdAt).toLocaleString('vi-VN', { dateStyle: 'short', timeStyle: 'short' });
@@ -1365,7 +1399,7 @@
 
   $('themeBtn').addEventListener('click', () => {
     document.body.classList.toggle('dark');
-    localStorage.setItem('vegoTheme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    storageSet('vegoTheme', document.body.classList.contains('dark') ? 'dark' : 'light');
     updateThemeIcon();
   });
 
@@ -1432,13 +1466,16 @@
       phone: $('profilePhone').value.trim(),
       password: $('profilePassword').value
     };
-    localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
+    if(!storageSet(PROFILE_KEY, JSON.stringify(profile))){
+      toast('Trình duyệt đang chặn lưu dữ liệu');
+      return;
+    }
     applyProfile(profile);
     toast('Đã lưu thông tin tài khoản');
   });
 
-  if(localStorage.getItem('vegoTheme') === 'dark') document.body.classList.add('dark');
-  try { applyProfile(JSON.parse(localStorage.getItem(PROFILE_KEY) || 'null')); } catch { localStorage.removeItem(PROFILE_KEY); }
+  if(storageGet('vegoTheme') === 'dark') document.body.classList.add('dark');
+  try { applyProfile(JSON.parse(storageGet(PROFILE_KEY) || 'null')); } catch { storageRemove(PROFILE_KEY); }
   const hour = new Date().getHours();
   if(hour >= 23 || hour < 4) $('night').checked = true;
   updateThemeIcon();
