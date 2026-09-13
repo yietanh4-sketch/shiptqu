@@ -629,6 +629,15 @@
 
     body.dark .bottom-nav{background:rgba(13,16,21,.86);border:1px solid rgba(255,255,255,.08)}
 
+    .app-view{margin-top:14px}.app-view.hidden{display:none}
+    .view-heading{margin:20px 3px 14px}.view-heading h1{margin:0;font-size:25px;letter-spacing:-.7px}.view-heading p{margin:6px 0 0;color:var(--muted);font-size:13px}
+    .notice-card,.order-card,.profile-card,.profile-form{border:1px solid var(--line);background:var(--surface);border-radius:var(--radius-lg);box-shadow:0 8px 24px rgba(28,35,48,.05)}
+    .notice-card{display:flex;gap:12px;align-items:center;padding:15px;margin-bottom:12px;background:linear-gradient(135deg,#fff7f0,#fff)}
+    .notice-icon{width:42px;height:42px;display:grid;place-items:center;flex:0 0 auto;border-radius:14px;background:var(--brand);color:#fff;font-size:20px}.notice-card b{display:block;font-size:14px}.notice-card small{display:block;margin-top:4px;color:var(--muted);font-size:12px;line-height:1.4}
+    .order-card{padding:16px;margin-bottom:12px}.order-top,.timeline-row{display:flex;justify-content:space-between;gap:12px}.order-top b{font-size:15px}.order-top small{display:block;margin-top:4px;color:var(--muted);font-size:11px}.order-status{align-self:start;padding:6px 9px;border-radius:99px;background:#eef9f4;color:var(--success);font-size:11px;font-weight:900}.timeline{margin:16px 0 4px;padding-left:13px;border-left:2px solid #ffe0c8;display:grid;gap:14px}.timeline-row{position:relative;align-items:start}.timeline-row:before{content:"";position:absolute;left:-18px;top:4px;width:8px;height:8px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 4px var(--brand-soft)}.timeline-row b{display:block;font-size:13px}.timeline-row span{color:var(--muted);font-size:11px}.timeline-row small{color:var(--muted);font-size:11px;white-space:nowrap}.order-footer{padding-top:12px;border-top:1px dashed #e8d8ca;color:var(--muted);font-size:12px}.order-footer b{float:right;color:var(--ink)}
+    .profile-card{padding:20px;text-align:center;background:linear-gradient(145deg,#fff7f0,#fff)}.profile-photo{width:88px;height:88px;margin:auto;display:grid;place-items:center;border-radius:50%;border:4px solid #fff;background:linear-gradient(135deg,#25282e,#555b66);color:#fff;font-size:29px;font-weight:900;box-shadow:0 10px 26px rgba(0,0,0,.15)}.profile-card h2{margin:12px 0 4px;font-size:20px}.profile-card p{margin:0;color:var(--muted);font-size:13px}.profile-badge{display:inline-block;margin-top:12px;padding:6px 10px;border-radius:99px;background:#eef9f4;color:var(--success);font-size:11px;font-weight:900}.profile-form{margin-top:14px;padding:18px}.profile-form h2{margin:0 0 16px;font-size:17px}.profile-form .field:last-child{margin-bottom:0}.password-wrap input{padding-right:52px}.show-password{position:absolute;right:8px;top:8px;border:0;border-radius:10px;background:var(--surface-2);height:36px;padding:0 10px;color:var(--muted);font-size:11px;font-weight:800;cursor:pointer}
+    body.dark .notice-card,body.dark .profile-card{background:linear-gradient(145deg,rgba(68,44,28,.7),rgba(28,32,40,.9))}body.dark .notice-card,body.dark .order-card,body.dark .profile-card,body.dark .profile-form{border-color:rgba(255,255,255,.09)}
+
     .hidden{display:none!important}
 
     .fade-in{
@@ -739,6 +748,52 @@
     @keyframes active-card{0%{transform:scale(.96)}100%{transform:scale(1)}}
     @keyframes zalo-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 
+    /* Mobile-first: tối ưu vùng chạm, safe-area và nội dung một cột trên điện thoại */
+    @media(max-width:759px){
+      html{background:#f5f6f9}
+      body{min-width:320px;overflow-x:hidden}
+      .app{
+        width:100%;
+        max-width:560px;
+        min-height:100dvh;
+        padding:0 16px calc(102px + env(safe-area-inset-bottom));
+      }
+      .topbar{
+        top:0;
+        margin:0 -16px;
+        padding:calc(10px + env(safe-area-inset-top)) 16px 10px;
+      }
+      .brand-logo{width:42px;height:42px;border-radius:14px;font-size:21px}
+      .brand-text strong{font-size:19px}.brand-text span{font-size:10px;letter-spacing:.55px}
+      .avatar,.icon-button{width:44px;height:44px}
+      .hero{margin-top:12px;padding:21px 18px;border-radius:24px}
+      .hero h1{margin-top:13px;font-size:25px;line-height:1.16}.hero p{font-size:13px}
+      .hero-stats{gap:8px;margin-top:16px}.stat{padding:10px 11px}.stat b{font-size:13px}.stat small{font-size:10px}
+      .section-title{margin:20px 2px 10px}.section-title h2{font-size:17px}
+      .services{gap:10px}.service{min-height:128px;padding:14px;border-radius:18px}.service .icon{width:42px;height:42px;border-radius:13px;font-size:21px}.service b{margin-top:10px;font-size:14px}.service small{font-size:11px}
+      .panel{margin-top:14px;padding:16px;border-radius:23px}.panel-title .mini-icon{width:38px;height:38px}.panel-title strong{font-size:15px}
+      input,select{height:52px;font-size:16px} /* tránh iOS tự phóng to khi nhập */
+      .toggle-card{padding:13px;border-radius:15px}.primary{height:54px;border-radius:16px}.quick-actions{gap:8px}.secondary{height:48px;font-size:12px}
+      .bottom-nav{
+        bottom:0;
+        width:100%;
+        max-width:560px;
+        min-height:76px;
+        padding:7px 10px max(8px,env(safe-area-inset-bottom));
+        border-radius:22px 22px 0 0;
+        box-shadow:0 -8px 30px rgba(0,0,0,.14);
+      }
+      .nav-item{min-height:57px;justify-content:center;gap:3px;padding:6px 2px;border-radius:15px}.nav-item span{font-size:20px;line-height:1}.nav-item small{font-size:10px}.nav-item.active{background:rgba(255,255,255,.12)}
+      .zalo-contact{right:16px;bottom:calc(88px + env(safe-area-inset-bottom));width:52px;height:52px}.zalo-contact svg{width:31px;height:31px}
+      .toast{bottom:calc(92px + env(safe-area-inset-bottom));width:calc(100% - 32px)}
+      .app-view{margin-top:12px}.view-heading{margin:18px 2px 13px}.view-heading h1{font-size:24px}.notice-card,.order-card,.profile-form{border-radius:18px}.notice-card{padding:14px}.order-card{padding:15px}.order-status{font-size:9px;padding:6px 7px}.timeline{gap:12px}.profile-card{padding:18px;border-radius:22px}
+    }
+
+    @media(max-width:359px){
+      .app{padding-left:12px;padding-right:12px}.topbar{margin-left:-12px;margin-right:-12px;padding-left:12px;padding-right:12px}
+      .brand-text span{display:none}.header-actions{gap:5px}.services{gap:8px}.service{min-height:122px;padding:12px}.service small{font-size:10px}.nav-item small{font-size:9px}.quick-actions{grid-template-columns:1fr}.bottom-nav{min-height:74px}
+    }
+
     @media(prefers-reduced-motion:reduce){
       *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
     }
@@ -787,7 +842,7 @@
       </div>
     </header>
 
-    <section class="hero">
+    <section class="hero page-home">
       <span class="hero-kicker">⚡ Tính giá tức thì</span>
       <h1>Một nơi cho mọi nhu cầu di chuyển & giao nhận.</h1>
       <p>Chọn dịch vụ, nhập thông tin và VEGO sẽ tự động tính chi phí theo bảng giá.</p>
@@ -804,7 +859,7 @@
       </div>
     </section>
 
-    <div class="workspace">
+    <div class="workspace page-home">
       <div>
         <div class="section-title">
           <h2>Bạn cần gì?</h2>
@@ -964,7 +1019,7 @@
         </div>
 
         <div class="promo">
-          <input id="promoCode" type="text" maxlength="16" placeholder="Mã ưu đãi: VEGO10" aria-label="Mã ưu đãi">
+          <input id="promoCode" type="text" maxlength="16" placeholder="Mã ưu đãi" aria-label="Mã ưu đãi">
           <button id="applyPromo" type="button">Áp dụng</button>
         </div>
         <div class="promo-status" id="promoStatus">Dùng VEGO10 để giảm 10% phí chính, tối đa 20.000đ.</div>
@@ -993,13 +1048,30 @@
         </div>
       </section>
     </div>
+    <section class="app-view hidden" id="ordersView" aria-label="Đơn hàng">
+      <div class="view-heading"><h1>Đơn hàng</h1><p>Theo dõi thông báo và thời gian dịch vụ trực tiếp.</p></div>
+      <article class="notice-card"><div class="notice-icon">●</div><div><b>Tài xế Nguyễn Minh đang đến điểm đón</b><small>Xe máy 59-X2 123.45 · Cập nhật 1 phút trước</small></div></article>
+      <article class="order-card">
+        <div class="order-top"><div><b>Xe ôm · #VG240914</b><small>Đón tại 12 Lê Lợi, Quận 1</small></div><span class="order-status">ĐANG DI CHUYỂN</span></div>
+        <div class="timeline"><div class="timeline-row"><div><b>Đơn hàng đã được xác nhận</b><span>Đang tìm tài xế phù hợp</span></div><small>00:18</small></div><div class="timeline-row"><div><b>Tài xế đã nhận chuyến</b><span>Nguyễn Minh · cách bạn 1,2 km</span></div><small>00:21</small></div><div class="timeline-row"><div><b>Dự kiến đến điểm đón</b><span>Thời gian được cập nhật theo lộ trình</span></div><small>00:26</small></div></div>
+        <div class="order-footer">Dự kiến hoàn thành <b>00:42</b></div>
+      </article>
+      <div class="section-title"><h2>Lịch sử dịch vụ</h2><span>Hôm nay</span></div>
+      <article class="order-card"><div class="order-top"><div><b>Giao hàng · #VG240899</b><small>Đã hoàn thành lúc 18:40</small></div><b>42.000đ</b></div></article>
+    </section>
+
+    <section class="app-view hidden" id="accountView" aria-label="Tài khoản">
+      <div class="view-heading"><h1>Tài khoản</h1><p>Quản lý thông tin cá nhân và bảo mật.</p></div>
+      <article class="profile-card"><div class="profile-photo">HA</div><h2>Hoàng Anh</h2><p>Khách hàng VEGO</p><span class="profile-badge">✓ Tài khoản đã xác thực</span></article>
+      <form class="profile-form" id="profileForm"><h2>Thông tin tài khoản</h2><div class="field"><label>Ảnh đại diện <small>Chữ cái đại diện</small></label><div class="input-wrap"><input id="profileAvatar" value="HA" maxlength="2"><span class="suffix">AVT</span></div></div><div class="field"><label>Tên tài khoản</label><div class="input-wrap"><input id="profileName" value="Hoàng Anh"><span class="suffix">USER</span></div></div><div class="field"><label>Số điện thoại</label><div class="input-wrap"><input id="profilePhone" type="tel" value="0777 893 730"><span class="suffix">VN</span></div></div><div class="field"><label>Mật khẩu</label><div class="input-wrap password-wrap"><input id="profilePassword" type="password" value="vego2026"><button class="show-password" id="showPassword" type="button">Hiện</button></div></div><button class="primary" type="submit">Lưu thay đổi</button></form>
+    </section>
   </main>
 
   <nav class="bottom-nav">
-    <button class="nav-item active"><span>⌂</span><small>Trang chủ</small></button>
-    <button class="nav-item"><span>◫</span><small>Đơn hàng</small></button>
-    <button class="nav-item"><span>♡</span><small>Ưu đãi</small></button>
-    <button class="nav-item"><span>●</span><small>Tài khoản</small></button>
+    <button class="nav-item active" data-view="home"><span>⌂</span><small>Trang chủ</small></button>
+    <button class="nav-item" data-view="orders"><span>◫</span><small>Đơn hàng</small></button>
+    <button class="nav-item" data-view="offers"><span>♡</span><small>Ưu đãi</small></button>
+    <button class="nav-item" data-view="account"><span>●</span><small>Tài khoản</small></button>
   </nav>
 
   <!-- Số liên hệ chỉ được dùng trong liên kết Zalo, không hiển thị trên giao diện. -->
@@ -1268,11 +1340,38 @@
     } catch(error) { if(error.name !== 'AbortError') toast('Không thể chia sẻ lúc này'); }
   });
 
-  document.querySelectorAll('.nav-item').forEach(item => {
-    item.addEventListener('click', () => {
-      document.querySelectorAll('.nav-item').forEach(x => x.classList.remove('active'));
-      item.classList.add('active');
+  function navigate(view){
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.classList.toggle('active', item.dataset.view === view);
     });
+    document.querySelectorAll('.page-home').forEach(el => el.classList.toggle('hidden', view !== 'home'));
+    $('ordersView').classList.toggle('hidden', view !== 'orders');
+    $('accountView').classList.toggle('hidden', view !== 'account');
+    if(view === 'offers'){
+      document.querySelectorAll('.page-home').forEach(el => el.classList.remove('hidden'));
+      $('ordersView').classList.add('hidden');
+      $('accountView').classList.add('hidden');
+      toast('Ưu đãi hiện có: dùng mã VEGO10 để giảm 10%');
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => navigate(item.dataset.view));
+  });
+  document.querySelector('.avatar').addEventListener('click', () => navigate('account'));
+  $('showPassword').addEventListener('click', () => {
+    const input = $('profilePassword');
+    const visible = input.type === 'text';
+    input.type = visible ? 'password' : 'text';
+    $('showPassword').textContent = visible ? 'Hiện' : 'Ẩn';
+  });
+  $('profileForm').addEventListener('submit', event => {
+    event.preventDefault();
+    const initials = $('profileAvatar').value.trim().toUpperCase() || 'HA';
+    document.querySelector('.profile-photo').textContent = initials;
+    document.querySelector('.avatar').textContent = initials;
+    toast('Đã lưu thông tin tài khoản');
   });
 
   if(localStorage.getItem('vegoTheme') === 'dark') document.body.classList.add('dark');
