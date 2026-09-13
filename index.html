@@ -643,7 +643,7 @@
     .notice-card,.order-card,.profile-card,.profile-form{border:1px solid var(--line);background:var(--surface);border-radius:var(--radius-lg);box-shadow:0 8px 24px rgba(28,35,48,.05)}
     .notice-card{display:flex;gap:12px;align-items:center;padding:15px;margin-bottom:12px;background:linear-gradient(135deg,#fff7f0,#fff)}
     .notice-icon{width:42px;height:42px;display:grid;place-items:center;flex:0 0 auto;border-radius:14px;background:var(--brand);color:#fff;font-size:20px}.notice-card b{display:block;font-size:14px}.notice-card small{display:block;margin-top:4px;color:var(--muted);font-size:12px;line-height:1.4}
-    .order-card{padding:16px;margin-bottom:12px}.order-top,.timeline-row{display:flex;justify-content:space-between;gap:12px}.order-top b{font-size:15px}.order-top small{display:block;margin-top:4px;color:var(--muted);font-size:11px}.order-status{align-self:start;padding:6px 9px;border-radius:99px;background:#eef9f4;color:var(--success);font-size:11px;font-weight:900}.timeline{margin:16px 0 4px;padding-left:13px;border-left:2px solid #ffe0c8;display:grid;gap:14px}.timeline-row{position:relative;align-items:start}.timeline-row:before{content:"";position:absolute;left:-18px;top:4px;width:8px;height:8px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 4px var(--brand-soft)}.timeline-row b{display:block;font-size:13px}.timeline-row span{color:var(--muted);font-size:11px}.timeline-row small{color:var(--muted);font-size:11px;white-space:nowrap}.order-footer{padding-top:12px;border-top:1px dashed #e8d8ca;color:var(--muted);font-size:12px}.order-footer b{float:right;color:var(--ink)}
+    .order-card{padding:16px;margin-bottom:12px}.order-top,.timeline-row{display:flex;justify-content:space-between;gap:12px}.order-top b{font-size:15px}.order-top small{display:block;margin-top:4px;color:var(--muted);font-size:11px}.order-status{align-self:start;padding:6px 9px;border-radius:99px;background:#eef9f4;color:var(--success);font-size:11px;font-weight:900}.timeline{margin:16px 0 4px;padding-left:13px;border-left:2px solid #ffe0c8;display:grid;gap:14px}.timeline-row{position:relative;align-items:start}.timeline-row:before{content:"";position:absolute;left:-18px;top:4px;width:8px;height:8px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 4px var(--brand-soft)}.timeline-row b{display:block;font-size:13px}.timeline-row span{color:var(--muted);font-size:11px}.timeline-row small{max-width:112px;color:var(--muted);font-size:11px;line-height:1.35;text-align:right}.order-footer{padding-top:12px;border-top:1px dashed #e8d8ca;color:var(--muted);font-size:12px}.order-footer b{float:right;color:var(--ink)}
     .profile-card{padding:20px;text-align:center;background:linear-gradient(145deg,#fff7f0,#fff)}.profile-photo{width:88px;height:88px;margin:auto;display:grid;place-items:center;border-radius:50%;border:4px solid #fff;background:linear-gradient(135deg,#25282e,#555b66);color:#fff;font-size:29px;font-weight:900;box-shadow:0 10px 26px rgba(0,0,0,.15)}.profile-card h2{margin:12px 0 4px;font-size:20px}.profile-card p{margin:0;color:var(--muted);font-size:13px}.profile-badge{display:inline-block;margin-top:12px;padding:6px 10px;border-radius:99px;background:#eef9f4;color:var(--success);font-size:11px;font-weight:900}.profile-form{margin-top:14px;padding:18px}.profile-form h2{margin:0 0 16px;font-size:17px}.profile-form .field:last-child{margin-bottom:0}.password-wrap input{padding-right:52px}.show-password{position:absolute;right:8px;top:8px;border:0;border-radius:10px;background:var(--surface-2);height:36px;padding:0 10px;color:var(--muted);font-size:11px;font-weight:800;cursor:pointer}
     body.dark .notice-card,body.dark .profile-card{background:linear-gradient(145deg,rgba(68,44,28,.7),rgba(28,32,40,.9))}body.dark .notice-card,body.dark .order-card,body.dark .profile-card,body.dark .profile-form{border-color:rgba(255,255,255,.09)}
 
@@ -1349,6 +1349,12 @@
     return new Date(value).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
   }
 
+  function orderDateTime(value){
+    return new Date(value).toLocaleString('vi-VN', {
+      day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'
+    });
+  }
+
   function renderOrders(){
     const container = $('ordersContent');
     if(!container) return;
@@ -1359,19 +1365,12 @@
     }
     const [active, ...history] = orders;
     const created = new Date(active.createdAt);
-    const driverAt = new Date(created.getTime() + 2 * 60000);
-    const pickupAt = new Date(created.getTime() + 7 * 60000);
-    const finishAt = new Date(created.getTime() + 25 * 60000);
-    const elapsed = Date.now() - created.getTime();
-    const status = elapsed >= 2 * 60000 ? 'ĐANG DI CHUYỂN' : 'ĐANG TÌM TÀI XẾ';
-    const driverText = elapsed >= 2 * 60000 ? 'Tài xế đã nhận chuyến' : 'Đang tìm tài xế phù hợp';
-    const driverSub = elapsed >= 2 * 60000 ? 'Nguyễn Minh · cách bạn 1,2 km' : 'Hệ thống đang gửi yêu cầu đến tài xế gần bạn';
     container.innerHTML = `
-      <article class="notice-card"><div class="notice-icon">●</div><div><b>${driverText}</b><small>Cập nhật lúc ${orderTime(new Date())} · thời gian thực</small></div></article>
-      <article class="order-card"><div class="order-top"><div><b>${active.service} · #${active.id}</b><small>${active.km} km · tạo lúc ${orderTime(active.createdAt)}</small></div><span class="order-status">${status}</span></div>
-      <div class="timeline"><div class="timeline-row"><div><b>Đơn hàng đã được xác nhận</b><span>VEGO đã nhận yêu cầu của bạn</span></div><small>${orderTime(created)}</small></div><div class="timeline-row"><div><b>${driverText}</b><span>${driverSub}</span></div><small>${elapsed >= 2 * 60000 ? orderTime(driverAt) : 'Đang chờ'}</small></div><div class="timeline-row"><div><b>Dự kiến đến điểm đón</b><span>Thời gian thay đổi theo lộ trình thực tế</span></div><small>${orderTime(pickupAt)}</small></div></div><div class="order-footer">Dự kiến hoàn thành <b>${orderTime(finishAt)}</b></div></article>
+      <article class="notice-card"><div class="notice-icon">✓</div><div><b>Đơn hàng mới nhất đã được lưu</b><small>Thời điểm tạo: ${orderDateTime(created)}</small></div></article>
+      <article class="order-card"><div class="order-top"><div><b>${active.service} · #${active.id}</b><small>Ngày tạo: ${orderDateTime(active.createdAt)}</small></div><span class="order-status">ĐÃ TẠO</span></div>
+      <div class="timeline"><div class="timeline-row"><div><b>Đơn hàng đã được tạo</b><span>Dữ liệu được lưu trên thiết bị của bạn</span></div><small>${orderDateTime(created)}</small></div><div class="timeline-row"><div><b>Thông tin dịch vụ</b><span>Quãng đường ${active.km} km · Tổng cước ${money(active.total)}</span></div><small>${orderDateTime(created)}</small></div></div><div class="order-footer">Trạng thái vận hành <b>Chưa có dữ liệu kết nối</b></div></article>
       <div class="section-title"><h2>Lịch sử dịch vụ</h2><span>${history.length} đơn trước</span></div>
-      ${history.length ? history.map(item => `<article class="order-card"><div class="order-top"><div><b>${item.service} · #${item.id}</b><small>${new Date(item.createdAt).toLocaleString('vi-VN', { dateStyle: 'short', timeStyle: 'short' })}</small></div><b>${money(item.total)}</b></div></article>`).join('') : '<div class="history-empty">Các đơn tiếp theo sẽ được lưu tại đây.</div>'}`;
+      ${history.length ? history.map(item => `<article class="order-card"><div class="order-top"><div><b>${item.service} · #${item.id}</b><small>${orderDateTime(item.createdAt)}</small></div><b>${money(item.total)}</b></div></article>`).join('') : '<div class="history-empty">Các đơn tiếp theo sẽ được lưu tại đây.</div>'}`;
   }
 
   function renderServiceHistory(){
@@ -1379,7 +1378,14 @@
     if(!container) return;
     const orders = getOrders();
     container.innerHTML = orders.length
-      ? `<div class="history-list">${orders.map((item, index) => `<article class="order-card"><div class="order-top"><div><b>${item.service} · #${item.id}</b><small>${new Date(item.createdAt).toLocaleString('vi-VN', { dateStyle: 'short', timeStyle: 'short' })} · ${item.km} km</small></div><strong>${money(item.total)}</strong></div>${index === 0 ? '<div class="order-footer">Đơn gần nhất <b>Đang được theo dõi</b></div>' : ''}</article>`).join('')}</div>`
+      ? `<div class="history-list">${orders.map((item, index) => {
+          const created = new Date(item.createdAt);
+          const elapsed = Date.now() - created.getTime();
+          const isLatest = index === 0;
+          const status = isLatest ? (elapsed >= 2 * 60000 ? 'ĐANG DI CHUYỂN' : 'ĐANG TÌM TÀI XẾ') : 'ĐÃ LƯU LỊCH SỬ';
+          const update = isLatest ? `Cập nhật thực tế: ${orderDateTime(new Date())}` : `Thời điểm tạo: ${orderDateTime(created)}`;
+          return `<article class="order-card"><div class="order-top"><div><b>${item.service} · #${item.id}</b><small>Ngày tạo: ${orderDateTime(created)}</small></div><strong>${money(item.total)}</strong></div><div class="timeline"><div class="timeline-row"><div><b>${status}</b><span>${update}</span></div><small>${orderDateTime(isLatest ? new Date() : created)}</small></div><div class="timeline-row"><div><b>Thông tin dịch vụ</b><span>Quãng đường ${item.km} km · Tổng cước ${money(item.total)}</span></div><small>${orderDateTime(created)}</small></div></div>${isLatest ? '<div class="order-footer">Đơn mới nhất <b>Đang được theo dõi</b></div>' : '<div class="order-footer">Trạng thái <b>Đã lưu</b></div>'}</article>`;
+        }).join('')}</div>`
       : '<div class="history-empty">Chưa có lịch sử dịch vụ. Xác nhận tính giá để tạo đơn đầu tiên.</div>';
   }
 
@@ -1387,7 +1393,7 @@
     const history = JSON.parse(storageGet('vegoQuoteHistory') || '[]');
     $('historyContent').innerHTML = history.length
       ? `<div class="history-list">${history.map(item => {
-          const when = new Date(item.createdAt).toLocaleString('vi-VN', { dateStyle: 'short', timeStyle: 'short' });
+          const when = orderDateTime(item.createdAt);
           return `<div class="history-item"><div><b>${item.service} · ${item.km} km</b><small>${when}</small></div><strong>${money(item.total)}</strong></div>`;
         }).join('')}</div>`
       : '<div class="history-empty">Chưa có báo giá nào được lưu.</div>';
@@ -1523,7 +1529,10 @@
   calculate();
   renderOrders();
   renderServiceHistory();
-  setInterval(renderOrders, 30000);
+  setInterval(() => {
+    renderOrders();
+    renderServiceHistory();
+  }, 30000);
 </script>
 </body>
 </html>
