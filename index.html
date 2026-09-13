@@ -528,6 +528,14 @@
       box-shadow:0 8px 18px rgba(255,107,0,.18);
     }
 
+    .contact-shipper{
+      width:100%;height:50px;margin-top:10px;border:1px solid var(--line);border-radius:16px;
+      background:var(--surface);color:var(--ink);font-size:14px;font-weight:900;cursor:pointer;
+    }
+    .contact-options{display:grid;gap:10px;margin-top:18px}
+    .contact-option{display:flex;align-items:center;gap:12px;min-height:58px;padding:10px 14px;border:1px solid var(--line);border-radius:16px;background:var(--surface);color:var(--ink);font-weight:800;text-decoration:none}
+    .contact-option span{width:36px;height:36px;display:grid;place-items:center;border-radius:12px;background:var(--brand-soft);font-size:18px}.contact-option.zalo span{background:#eaf2ff;color:#0068ff}
+
     .hint{
       margin-top:11px;
       text-align:center;
@@ -586,6 +594,7 @@
     body.dark .line{border-color:rgba(255,255,255,.12);color:#c5c9d0}
     body.dark .line b{color:#fff8f1}
     body.dark .secondary,body.dark .icon-button{background:rgba(28,32,40,.86);color:var(--ink);border-color:rgba(255,255,255,.10)}
+    body.dark .contact-shipper,body.dark .contact-option{background:rgba(28,32,40,.86);color:var(--ink);border-color:rgba(255,255,255,.10)}
     body.dark .promo button{background:#f47b22;color:#17120e}
     body.dark .price-chip{background:rgba(20,165,107,.15);color:#76e1b4}
 
@@ -1037,6 +1046,7 @@
         <button class="primary" id="calculateBtn">
           Xác nhận tính giá
         </button>
+        <button class="contact-shipper" id="contactShipper" type="button">◉ Liên hệ shipper</button>
 
         <div class="quick-actions">
           <button class="secondary" id="shareBtn" type="button">↗ Chia sẻ báo giá</button>
@@ -1053,6 +1063,11 @@
       <div id="ordersContent"></div>
     </section>
 
+    <section class="app-view hidden" id="historyView" aria-label="Lịch sử dịch vụ">
+      <div class="view-heading"><h1>Lịch sử dịch vụ</h1><p>Tất cả đơn hàng đã xác nhận được lưu trên thiết bị này.</p></div>
+      <div id="serviceHistoryContent"></div>
+    </section>
+
     <section class="app-view hidden" id="accountView" aria-label="Tài khoản">
       <div class="view-heading"><h1>Tài khoản</h1><p>Quản lý thông tin cá nhân và bảo mật.</p></div>
       <article class="profile-card"><div class="profile-photo">HA</div><h2 id="profileDisplayName">Hoàng Anh</h2><p>Khách hàng VEGO</p><span class="profile-badge">✓ Tài khoản đã xác thực</span></article>
@@ -1063,7 +1078,7 @@
   <nav class="bottom-nav">
     <button class="nav-item active" data-view="home"><span>⌂</span><small>Trang chủ</small></button>
     <button class="nav-item" data-view="orders"><span>◫</span><small>Đơn hàng</small></button>
-    <button class="nav-item" data-view="offers"><span>♡</span><small>Ưu đãi</small></button>
+    <button class="nav-item" data-view="history"><span>◷</span><small>Lịch sử</small></button>
     <button class="nav-item" data-view="account"><span>●</span><small>Tài khoản</small></button>
   </nav>
 
@@ -1082,6 +1097,17 @@
     <section class="modal">
       <div class="modal-head"><h2 id="historyTitle">Lịch sử báo giá</h2><button class="close" id="closeHistory" aria-label="Đóng">×</button></div>
       <div id="historyContent"></div>
+    </section>
+  </div>
+
+  <div class="modal-backdrop" id="contactModal" role="dialog" aria-modal="true" aria-labelledby="contactTitle">
+    <section class="modal">
+      <div class="modal-head"><h2 id="contactTitle">Liên hệ shipper</h2><button class="close" id="closeContact" aria-label="Đóng">×</button></div>
+      <p class="hint" style="margin:10px 0 0;text-align:left">Chọn cách liên hệ phù hợp với bạn.</p>
+      <div class="contact-options">
+        <a class="contact-option zalo" href="https://zalo.me/0777893730" target="_blank" rel="noopener noreferrer"><span>✉</span>Nhắn tin qua Zalo</a>
+        <a class="contact-option" href="tel:0332928205"><span>☎</span>Gọi trực tiếp shipper</a>
+      </div>
     </section>
   </div>
 
@@ -1116,11 +1142,13 @@
     storageFallback[key] = value;
     try {
       window.localStorage.setItem(key, value);
-      return true;
+      if(window.localStorage.getItem(key) === value) return true;
     } catch(error) {}
     try {
       document.cookie = `${encodeURIComponent(key)}=${encodeURIComponent(value)}; max-age=31536000; path=/; SameSite=Lax`;
-      return true;
+      const prefix = `${encodeURIComponent(key)}=`;
+      const item = document.cookie.split('; ').find(row => row.startsWith(prefix));
+      return Boolean(item && decodeURIComponent(item.slice(prefix.length)) === value);
     } catch(error) { return false; }
   }
 
@@ -1275,8 +1303,7 @@
 
     if(showToast){
       saveQuote();
-      saveOrder();
-      toast('Đã tạo đơn hàng mới với thời gian thực');
+      toast(saveOrder() ? 'Đã tạo đơn hàng và lưu trên thiết bị' : 'Không thể lưu đơn hàng trên trình duyệt này');
     }
   }
 
@@ -1290,7 +1317,8 @@
 
   function saveQuote(){
     if(!lastQuote) return;
-    const history = JSON.parse(storageGet('vegoQuoteHistory') || '[]');
+    let history = [];
+    try { history = JSON.parse(storageGet('vegoQuoteHistory') || '[]'); } catch(error) {}
     history.unshift(lastQuote);
     storageSet('vegoQuoteHistory', JSON.stringify(history.slice(0, 12)));
   }
@@ -1311,8 +1339,10 @@
       total: lastQuote.total,
       createdAt: now.toISOString()
     });
-    storageSet(ORDER_KEY, JSON.stringify(orders.slice(0, 12)));
+    const saved = storageSet(ORDER_KEY, JSON.stringify(orders.slice(0, 12)));
     renderOrders();
+    renderServiceHistory();
+    return saved;
   }
 
   function orderTime(value){
@@ -1342,6 +1372,15 @@
       <div class="timeline"><div class="timeline-row"><div><b>Đơn hàng đã được xác nhận</b><span>VEGO đã nhận yêu cầu của bạn</span></div><small>${orderTime(created)}</small></div><div class="timeline-row"><div><b>${driverText}</b><span>${driverSub}</span></div><small>${elapsed >= 2 * 60000 ? orderTime(driverAt) : 'Đang chờ'}</small></div><div class="timeline-row"><div><b>Dự kiến đến điểm đón</b><span>Thời gian thay đổi theo lộ trình thực tế</span></div><small>${orderTime(pickupAt)}</small></div></div><div class="order-footer">Dự kiến hoàn thành <b>${orderTime(finishAt)}</b></div></article>
       <div class="section-title"><h2>Lịch sử dịch vụ</h2><span>${history.length} đơn trước</span></div>
       ${history.length ? history.map(item => `<article class="order-card"><div class="order-top"><div><b>${item.service} · #${item.id}</b><small>${new Date(item.createdAt).toLocaleString('vi-VN', { dateStyle: 'short', timeStyle: 'short' })}</small></div><b>${money(item.total)}</b></div></article>`).join('') : '<div class="history-empty">Các đơn tiếp theo sẽ được lưu tại đây.</div>'}`;
+  }
+
+  function renderServiceHistory(){
+    const container = $('serviceHistoryContent');
+    if(!container) return;
+    const orders = getOrders();
+    container.innerHTML = orders.length
+      ? `<div class="history-list">${orders.map((item, index) => `<article class="order-card"><div class="order-top"><div><b>${item.service} · #${item.id}</b><small>${new Date(item.createdAt).toLocaleString('vi-VN', { dateStyle: 'short', timeStyle: 'short' })} · ${item.km} km</small></div><strong>${money(item.total)}</strong></div>${index === 0 ? '<div class="order-footer">Đơn gần nhất <b>Đang được theo dõi</b></div>' : ''}</article>`).join('')}</div>`
+      : '<div class="history-empty">Chưa có lịch sử dịch vụ. Xác nhận tính giá để tạo đơn đầu tiên.</div>';
   }
 
   function renderHistory(){
@@ -1411,6 +1450,11 @@
   $('historyModal').addEventListener('click', event => {
     if(event.target === $('historyModal')) $('historyModal').classList.remove('open');
   });
+  $('contactShipper').addEventListener('click', () => $('contactModal').classList.add('open'));
+  $('closeContact').addEventListener('click', () => $('contactModal').classList.remove('open'));
+  $('contactModal').addEventListener('click', event => {
+    if(event.target === $('contactModal')) $('contactModal').classList.remove('open');
+  });
   $('shareBtn').addEventListener('click', async () => {
     const text = `VEGO · ${configs[current].name} ${$('distance').value || 0} km: ${$('total').textContent}`;
     try {
@@ -1426,12 +1470,8 @@
     document.querySelectorAll('.page-home').forEach(el => el.classList.toggle('hidden', view !== 'home'));
     $('ordersView').classList.toggle('hidden', view !== 'orders');
     $('accountView').classList.toggle('hidden', view !== 'account');
-    if(view === 'offers'){
-      document.querySelectorAll('.page-home').forEach(el => el.classList.remove('hidden'));
-      $('ordersView').classList.add('hidden');
-      $('accountView').classList.add('hidden');
-      toast('Ưu đãi hiện có: dùng mã VEGO10 để giảm 10%');
-    }
+    $('historyView').classList.toggle('hidden', view !== 'history');
+    if(view === 'history') renderServiceHistory();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -1482,6 +1522,7 @@
   updateForm();
   calculate();
   renderOrders();
+  renderServiceHistory();
   setInterval(renderOrders, 30000);
 </script>
 </body>
