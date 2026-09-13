@@ -1050,19 +1050,12 @@
     </div>
     <section class="app-view hidden" id="ordersView" aria-label="Đơn hàng">
       <div class="view-heading"><h1>Đơn hàng</h1><p>Theo dõi thông báo và thời gian dịch vụ trực tiếp.</p></div>
-      <article class="notice-card"><div class="notice-icon">●</div><div><b>Tài xế Nguyễn Minh đang đến điểm đón</b><small>Xe máy 59-X2 123.45 · Cập nhật 1 phút trước</small></div></article>
-      <article class="order-card">
-        <div class="order-top"><div><b>Xe ôm · #VG240914</b><small>Đón tại 12 Lê Lợi, Quận 1</small></div><span class="order-status">ĐANG DI CHUYỂN</span></div>
-        <div class="timeline"><div class="timeline-row"><div><b>Đơn hàng đã được xác nhận</b><span>Đang tìm tài xế phù hợp</span></div><small>00:18</small></div><div class="timeline-row"><div><b>Tài xế đã nhận chuyến</b><span>Nguyễn Minh · cách bạn 1,2 km</span></div><small>00:21</small></div><div class="timeline-row"><div><b>Dự kiến đến điểm đón</b><span>Thời gian được cập nhật theo lộ trình</span></div><small>00:26</small></div></div>
-        <div class="order-footer">Dự kiến hoàn thành <b>00:42</b></div>
-      </article>
-      <div class="section-title"><h2>Lịch sử dịch vụ</h2><span>Hôm nay</span></div>
-      <article class="order-card"><div class="order-top"><div><b>Giao hàng · #VG240899</b><small>Đã hoàn thành lúc 18:40</small></div><b>42.000đ</b></div></article>
+      <div id="ordersContent"></div>
     </section>
 
     <section class="app-view hidden" id="accountView" aria-label="Tài khoản">
       <div class="view-heading"><h1>Tài khoản</h1><p>Quản lý thông tin cá nhân và bảo mật.</p></div>
-      <article class="profile-card"><div class="profile-photo">HA</div><h2>Hoàng Anh</h2><p>Khách hàng VEGO</p><span class="profile-badge">✓ Tài khoản đã xác thực</span></article>
+      <article class="profile-card"><div class="profile-photo">HA</div><h2 id="profileDisplayName">Hoàng Anh</h2><p>Khách hàng VEGO</p><span class="profile-badge">✓ Tài khoản đã xác thực</span></article>
       <form class="profile-form" id="profileForm"><h2>Thông tin tài khoản</h2><div class="field"><label>Ảnh đại diện <small>Chữ cái đại diện</small></label><div class="input-wrap"><input id="profileAvatar" value="HA" maxlength="2"><span class="suffix">AVT</span></div></div><div class="field"><label>Tên tài khoản</label><div class="input-wrap"><input id="profileName" value="Hoàng Anh"><span class="suffix">USER</span></div></div><div class="field"><label>Số điện thoại</label><div class="input-wrap"><input id="profilePhone" type="tel" value="0777 893 730"><span class="suffix">VN</span></div></div><div class="field"><label>Mật khẩu</label><div class="input-wrap password-wrap"><input id="profilePassword" type="password" value="vego2026"><button class="show-password" id="showPassword" type="button">Hiện</button></div></div><button class="primary" type="submit">Lưu thay đổi</button></form>
     </section>
   </main>
@@ -1100,6 +1093,8 @@
   let discount = 0;
   let appliedPromo = '';
   let lastQuote = null;
+  const PROFILE_KEY = 'vegoCustomerProfile';
+  const ORDER_KEY = 'vegoOrders';
 
   const configs = {
     ride: {
@@ -1246,7 +1241,8 @@
 
     if(showToast){
       saveQuote();
-      toast('Đã lưu báo giá vào lịch sử');
+      saveOrder();
+      toast('Đã tạo đơn hàng mới với thời gian thực');
     }
   }
 
@@ -1263,6 +1259,55 @@
     const history = JSON.parse(localStorage.getItem('vegoQuoteHistory') || '[]');
     history.unshift(lastQuote);
     localStorage.setItem('vegoQuoteHistory', JSON.stringify(history.slice(0, 12)));
+  }
+
+  function getOrders(){
+    try { return JSON.parse(localStorage.getItem(ORDER_KEY) || '[]'); }
+    catch { return []; }
+  }
+
+  function saveOrder(){
+    if(!lastQuote) return;
+    const orders = getOrders();
+    const now = new Date();
+    orders.unshift({
+      id: `VG${now.getFullYear().toString().slice(-2)}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}-${String(now.getTime()).slice(-4)}`,
+      service: lastQuote.service,
+      km: lastQuote.km,
+      total: lastQuote.total,
+      createdAt: now.toISOString()
+    });
+    localStorage.setItem(ORDER_KEY, JSON.stringify(orders.slice(0, 12)));
+    renderOrders();
+  }
+
+  function orderTime(value){
+    return new Date(value).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  function renderOrders(){
+    const container = $('ordersContent');
+    if(!container) return;
+    const orders = getOrders();
+    if(!orders.length){
+      container.innerHTML = '<div class="history-empty">Chưa có đơn hàng. Hãy xác nhận tính giá để tạo đơn mới.</div>';
+      return;
+    }
+    const [active, ...history] = orders;
+    const created = new Date(active.createdAt);
+    const driverAt = new Date(created.getTime() + 2 * 60000);
+    const pickupAt = new Date(created.getTime() + 7 * 60000);
+    const finishAt = new Date(created.getTime() + 25 * 60000);
+    const elapsed = Date.now() - created.getTime();
+    const status = elapsed >= 2 * 60000 ? 'ĐANG DI CHUYỂN' : 'ĐANG TÌM TÀI XẾ';
+    const driverText = elapsed >= 2 * 60000 ? 'Tài xế đã nhận chuyến' : 'Đang tìm tài xế phù hợp';
+    const driverSub = elapsed >= 2 * 60000 ? 'Nguyễn Minh · cách bạn 1,2 km' : 'Hệ thống đang gửi yêu cầu đến tài xế gần bạn';
+    container.innerHTML = `
+      <article class="notice-card"><div class="notice-icon">●</div><div><b>${driverText}</b><small>Cập nhật lúc ${orderTime(new Date())} · thời gian thực</small></div></article>
+      <article class="order-card"><div class="order-top"><div><b>${active.service} · #${active.id}</b><small>${active.km} km · tạo lúc ${orderTime(active.createdAt)}</small></div><span class="order-status">${status}</span></div>
+      <div class="timeline"><div class="timeline-row"><div><b>Đơn hàng đã được xác nhận</b><span>VEGO đã nhận yêu cầu của bạn</span></div><small>${orderTime(created)}</small></div><div class="timeline-row"><div><b>${driverText}</b><span>${driverSub}</span></div><small>${elapsed >= 2 * 60000 ? orderTime(driverAt) : 'Đang chờ'}</small></div><div class="timeline-row"><div><b>Dự kiến đến điểm đón</b><span>Thời gian thay đổi theo lộ trình thực tế</span></div><small>${orderTime(pickupAt)}</small></div></div><div class="order-footer">Dự kiến hoàn thành <b>${orderTime(finishAt)}</b></div></article>
+      <div class="section-title"><h2>Lịch sử dịch vụ</h2><span>${history.length} đơn trước</span></div>
+      ${history.length ? history.map(item => `<article class="order-card"><div class="order-top"><div><b>${item.service} · #${item.id}</b><small>${new Date(item.createdAt).toLocaleString('vi-VN', { dateStyle: 'short', timeStyle: 'short' })}</small></div><b>${money(item.total)}</b></div></article>`).join('') : '<div class="history-empty">Các đơn tiếp theo sẽ được lưu tại đây.</div>'}`;
   }
 
   function renderHistory(){
@@ -1366,20 +1411,41 @@
     input.type = visible ? 'password' : 'text';
     $('showPassword').textContent = visible ? 'Hiện' : 'Ẩn';
   });
-  $('profileForm').addEventListener('submit', event => {
-    event.preventDefault();
+
+  function applyProfile(profile){
+    if(!profile) return;
+    $('profileAvatar').value = profile.avatar || 'HA';
+    $('profileName').value = profile.name || 'Hoàng Anh';
+    $('profilePhone').value = profile.phone || '';
+    $('profilePassword').value = profile.password || '';
     const initials = $('profileAvatar').value.trim().toUpperCase() || 'HA';
     document.querySelector('.profile-photo').textContent = initials;
     document.querySelector('.avatar').textContent = initials;
+    $('profileDisplayName').textContent = $('profileName').value.trim() || 'Khách hàng VEGO';
+  }
+
+  $('profileForm').addEventListener('submit', event => {
+    event.preventDefault();
+    const profile = {
+      avatar: $('profileAvatar').value.trim().toUpperCase() || 'HA',
+      name: $('profileName').value.trim() || 'Khách hàng VEGO',
+      phone: $('profilePhone').value.trim(),
+      password: $('profilePassword').value
+    };
+    localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
+    applyProfile(profile);
     toast('Đã lưu thông tin tài khoản');
   });
 
   if(localStorage.getItem('vegoTheme') === 'dark') document.body.classList.add('dark');
+  try { applyProfile(JSON.parse(localStorage.getItem(PROFILE_KEY) || 'null')); } catch { localStorage.removeItem(PROFILE_KEY); }
   const hour = new Date().getHours();
   if(hour >= 23 || hour < 4) $('night').checked = true;
   updateThemeIcon();
   updateForm();
   calculate();
+  renderOrders();
+  setInterval(renderOrders, 30000);
 </script>
 </body>
 </html>
