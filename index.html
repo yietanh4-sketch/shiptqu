@@ -105,6 +105,12 @@
       box-shadow:0 8px 20px rgba(0,0,0,.14);
     }
 
+    .header-actions{display:flex;align-items:center;gap:8px}
+    .icon-button{
+      width:42px;height:42px;border:1px solid var(--line);border-radius:50%;
+      background:var(--surface);color:var(--ink);font-size:17px;cursor:pointer;
+    }
+
     .hero{
       position:relative;
       overflow:hidden;
@@ -530,6 +536,59 @@
       line-height:1.5;
     }
 
+    .quick-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+    .secondary{
+      height:46px;border:1px solid var(--line);border-radius:15px;background:var(--surface);
+      color:var(--ink);font-size:13px;font-weight:800;cursor:pointer;
+    }
+    .promo{display:flex;gap:8px;margin-top:14px}
+    .promo input{height:46px;padding-right:14px;text-transform:uppercase}
+    .promo button{width:92px;border:0;border-radius:14px;background:#202328;color:#fff;font-weight:800;cursor:pointer}
+    .promo-status{min-height:18px;margin:6px 2px 0;color:var(--muted);font-size:11px;font-weight:700}
+    .promo-status.valid{color:var(--success)}
+
+    .modal-backdrop{
+      position:fixed;inset:0;z-index:80;display:grid;place-items:end center;padding:18px;
+      background:rgba(10,12,15,.45);opacity:0;pointer-events:none;transition:.2s ease;
+    }
+    .modal-backdrop.open{opacity:1;pointer-events:auto}
+    .modal{width:min(100%,520px);max-height:76vh;overflow:auto;padding:20px;border-radius:24px;background:var(--surface);transform:translateY(18px);transition:.2s ease}
+    .modal-backdrop.open .modal{transform:translateY(0)}
+    .modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .modal-head h2{margin:0;font-size:18px}.close{border:0;background:var(--surface-2);border-radius:10px;width:36px;height:36px;font-size:20px;cursor:pointer;color:var(--ink)}
+    .history-empty{color:var(--muted);font-size:13px;text-align:center;padding:28px 8px}.history-list{display:grid;gap:10px;margin-top:16px}
+    .history-item{display:flex;justify-content:space-between;gap:14px;padding:13px;border:1px solid var(--line);border-radius:15px}.history-item b{font-size:13px}.history-item small{display:block;margin-top:3px;color:var(--muted);font-size:11px}.history-item strong{white-space:nowrap;color:var(--brand);font-size:14px}
+    body.dark{
+      --ink:#f7f4ef;
+      --muted:#aeb4c0;
+      --line:rgba(255,255,255,.10);
+      --surface:rgba(28,32,40,.84);
+      --surface-2:#141820;
+      --brand-soft:rgba(255,107,0,.16);
+      --shadow:0 22px 60px rgba(0,0,0,.36);
+      background:
+        radial-gradient(circle at 6% -5%,rgba(255,107,0,.24),transparent 29%),
+        radial-gradient(circle at 100% 22%,rgba(255,139,31,.10),transparent 26%),
+        linear-gradient(155deg,#12151b 0%,#0d1015 48%,#15110d 100%);
+    }
+    body.dark .topbar{background:rgba(17,20,26,.76);border-bottom-color:rgba(255,255,255,.07)}
+    body.dark .hero{background:linear-gradient(135deg,rgba(21,23,28,.98),rgba(47,29,18,.95))}
+    body.dark .hero:after{background:radial-gradient(circle,rgba(255,134,38,.7),rgba(255,107,0,0) 70%)}
+    body.dark .service,
+    body.dark .panel{background:rgba(28,32,40,.80);border-color:rgba(255,255,255,.09)}
+    body.dark .service{box-shadow:0 12px 28px rgba(0,0,0,.17)}
+    body.dark .service.active{background:linear-gradient(160deg,rgba(68,44,28,.92),rgba(37,31,28,.9));border-color:rgba(255,132,42,.72);box-shadow:0 16px 35px rgba(255,107,0,.16)}
+    body.dark input,body.dark select{background:rgba(12,15,20,.78);color:var(--ink);border-color:rgba(255,255,255,.11)}
+    body.dark input:focus,body.dark select:focus{background:#15191f}
+    body.dark .toggle-card{background:rgba(15,18,24,.62);border-color:rgba(255,255,255,.08)}
+    body.dark .toggle-emoji,body.dark .service .icon{background:rgba(255,255,255,.07)}
+    body.dark .estimate{background:linear-gradient(160deg,rgba(72,42,23,.54),rgba(26,29,36,.84));border-color:rgba(255,141,52,.28)}
+    body.dark .line{border-color:rgba(255,255,255,.12);color:#c5c9d0}
+    body.dark .line b{color:#fff8f1}
+    body.dark .secondary,body.dark .icon-button{background:rgba(28,32,40,.86);color:var(--ink);border-color:rgba(255,255,255,.10)}
+    body.dark .promo button{background:#f47b22;color:#17120e}
+    body.dark .price-chip{background:rgba(20,165,107,.15);color:#76e1b4}
+
     .bottom-nav{
       position:fixed;
       left:50%;
@@ -568,6 +627,8 @@
       background:rgba(255,255,255,.08);
     }
 
+    body.dark .bottom-nav{background:rgba(13,16,21,.86);border:1px solid rgba(255,255,255,.08)}
+
     .hidden{display:none!important}
 
     .fade-in{
@@ -604,6 +665,84 @@
       transform:translate(-50%,0);
     }
 
+    /* Liên hệ nhanh: luôn nằm trên thanh điều hướng trên màn hình nhỏ */
+    .zalo-contact{
+      position:fixed;
+      right:18px;
+      bottom:94px;
+      z-index:55;
+      width:56px;
+      height:56px;
+      display:grid;
+      place-items:center;
+      border-radius:50%;
+      background:#0068ff;
+      color:#fff;
+      box-shadow:0 12px 26px rgba(0,104,255,.34);
+      text-decoration:none;
+      transition:transform .18s ease, box-shadow .18s ease;
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    .zalo-contact:active{
+      transform:scale(.93);
+      box-shadow:0 7px 16px rgba(0,104,255,.28);
+    }
+
+    .zalo-contact svg{width:34px;height:34px;display:block}
+    .zalo-contact .zalo-tooltip{
+      position:absolute;
+      right:66px;
+      padding:8px 10px;
+      border-radius:10px;
+      background:#172033;
+      color:#fff;
+      font-size:11px;
+      font-weight:800;
+      white-space:nowrap;
+      opacity:0;
+      transform:translateX(5px);
+      pointer-events:none;
+      transition:.18s ease;
+    }
+
+    .zalo-contact:hover .zalo-tooltip,
+    .zalo-contact:focus-visible .zalo-tooltip{opacity:1;transform:translateX(0)}
+
+    .zalo-contact:focus-visible{outline:3px solid rgba(0,104,255,.25);outline-offset:4px}
+
+    /* Chuyển động giao diện */
+    .topbar{animation:slide-down .55s cubic-bezier(.16,1,.3,1) both}
+    .hero{animation:hero-enter .72s .08s cubic-bezier(.16,1,.3,1) both}
+    .hero:after{animation:glow-drift 5s ease-in-out infinite alternate}
+    .hero-kicker{animation:soft-pulse 2.3s ease-in-out infinite}
+    .services .service{animation:card-enter .58s cubic-bezier(.16,1,.3,1) both}
+    .services .service:nth-child(1){animation-delay:.16s}
+    .services .service:nth-child(2){animation-delay:.23s}
+    .services .service:nth-child(3){animation-delay:.30s}
+    .services .service:nth-child(4){animation-delay:.37s}
+    .panel{animation:panel-enter .7s .25s cubic-bezier(.16,1,.3,1) both}
+    .service:hover{transform:translateY(-4px);border-color:rgba(255,107,0,.35);box-shadow:0 16px 32px rgba(28,35,48,.12)}
+    .service.active{animation:active-card .42s cubic-bezier(.34,1.56,.64,1)}
+    .primary:hover{transform:translateY(-2px);box-shadow:0 18px 31px rgba(255,107,0,.32)}
+    .primary{position:relative;overflow:hidden}
+    .primary:before{content:"";position:absolute;inset:0;transform:translateX(-120%) skewX(-20deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.27),transparent);transition:transform .6s ease}
+    .primary:hover:before{transform:translateX(120%) skewX(-20deg)}
+    .zalo-contact{animation:zalo-float 2.8s ease-in-out infinite}
+
+    @keyframes slide-down{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes hero-enter{from{opacity:0;transform:translateY(24px) scale(.975)}to{opacity:1;transform:translateY(0) scale(1)}}
+    @keyframes card-enter{from{opacity:0;transform:translateY(22px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+    @keyframes panel-enter{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes glow-drift{from{transform:translate(-7px,-3px) scale(.94)}to{transform:translate(8px,9px) scale(1.12)}}
+    @keyframes soft-pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,141,67,0)}50%{box-shadow:0 0 0 7px rgba(255,141,67,.12)}}
+    @keyframes active-card{0%{transform:scale(.96)}100%{transform:scale(1)}}
+    @keyframes zalo-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
+    }
+
     @media(min-width:760px){
       .app{
         max-width:1040px;
@@ -625,6 +764,7 @@
       .services{grid-template-columns:repeat(2,1fr)}
       .panel{margin-top:0;position:sticky;top:82px}
       .bottom-nav{display:none}
+      .zalo-contact{right:28px;bottom:28px}
     }
   </style>
 </head>
@@ -640,7 +780,10 @@
             <span>MOVE • EAT • DELIVER</span>
           </div>
         </div>
-        <button class="avatar" aria-label="Tài khoản">HA</button>
+        <div class="header-actions">
+          <button class="icon-button" id="themeBtn" aria-label="Đổi giao diện" title="Đổi giao diện">☾</button>
+          <button class="avatar" aria-label="Tài khoản">HA</button>
+        </div>
       </div>
     </header>
 
@@ -820,6 +963,12 @@
           </div>
         </div>
 
+        <div class="promo">
+          <input id="promoCode" type="text" maxlength="16" placeholder="Mã ưu đãi: VEGO10" aria-label="Mã ưu đãi">
+          <button id="applyPromo" type="button">Áp dụng</button>
+        </div>
+        <div class="promo-status" id="promoStatus">Dùng VEGO10 để giảm 10% phí chính, tối đa 20.000đ.</div>
+
         <div class="estimate">
           <div class="estimate-head">
             <span>Tổng dự kiến</span>
@@ -833,6 +982,11 @@
         <button class="primary" id="calculateBtn">
           Xác nhận tính giá
         </button>
+
+        <div class="quick-actions">
+          <button class="secondary" id="shareBtn" type="button">↗ Chia sẻ báo giá</button>
+          <button class="secondary" id="historyBtn" type="button">◷ Lịch sử báo giá</button>
+        </div>
 
         <div class="hint">
           Giá mang tính ước tính theo bảng giá hiện tại. Phụ phí được cộng sau phí chính.
@@ -848,13 +1002,32 @@
     <button class="nav-item"><span>●</span><small>Tài khoản</small></button>
   </nav>
 
+  <!-- Số liên hệ chỉ được dùng trong liên kết Zalo, không hiển thị trên giao diện. -->
+  <a class="zalo-contact" href="https://zalo.me/0777893730" target="_blank" rel="noopener noreferrer" aria-label="Liên hệ qua Zalo" title="Liên hệ qua Zalo">
+    <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+      <path fill="currentColor" d="M8.1 10.2C9.1 7 11.9 5 15.3 5h17.4c4.2 0 7.6 3.4 7.6 7.6v16.8c0 4.2-3.4 7.6-7.6 7.6H21.5l-7.4 5.5c-1.3 1-3.2.1-3.2-1.5V37c-1.7-1.4-2.8-3.5-2.8-5.9V13.8c0-1.3 0-2.4 0-3.6Z"/>
+      <path fill="#0068ff" d="M15.3 14.1h16.4v3.1l-9.4 12h9.7v4.7H15.5v-3.2l9.4-11.9h-9.6v-4.7Z"/>
+    </svg>
+    <span class="zalo-tooltip">Liên hệ qua Zalo</span>
+  </a>
+
   <div class="toast" id="toast">Đã cập nhật giá dự kiến</div>
+
+  <div class="modal-backdrop" id="historyModal" role="dialog" aria-modal="true" aria-labelledby="historyTitle">
+    <section class="modal">
+      <div class="modal-head"><h2 id="historyTitle">Lịch sử báo giá</h2><button class="close" id="closeHistory" aria-label="Đóng">×</button></div>
+      <div id="historyContent"></div>
+    </section>
+  </div>
 
 <script>
   const $ = id => document.getElementById(id);
   const money = value => Math.round(value).toLocaleString('vi-VN') + 'đ';
 
   let current = 'ride';
+  let discount = 0;
+  let appliedPromo = '';
+  let lastQuote = null;
 
   const configs = {
     ride: {
@@ -984,6 +1157,14 @@
       total += 5000;
     }
 
+    if(discount > 0){
+      const saved = Math.min(Math.round(total * discount), 20000);
+      lines.push([`Ưu đãi ${appliedPromo}`, -saved]);
+      total = Math.max(0, total - saved);
+    }
+
+    lastQuote = { service: c.name, km, total, createdAt: new Date().toISOString() };
+
     $('total').textContent = money(total);
     $('breakdown').innerHTML = lines
       .map(([name, price]) =>
@@ -991,14 +1172,58 @@
       )
       .join('');
 
-    if(showToast) toast();
+    if(showToast){
+      saveQuote();
+      toast('Đã lưu báo giá vào lịch sử');
+    }
   }
 
-  function toast(){
+  function toast(message = 'Đã cập nhật giá dự kiến'){
     const el = $('toast');
+    el.textContent = message;
     el.classList.add('show');
     clearTimeout(window.__vegoToast);
     window.__vegoToast = setTimeout(() => el.classList.remove('show'), 1600);
+  }
+
+  function saveQuote(){
+    if(!lastQuote) return;
+    const history = JSON.parse(localStorage.getItem('vegoQuoteHistory') || '[]');
+    history.unshift(lastQuote);
+    localStorage.setItem('vegoQuoteHistory', JSON.stringify(history.slice(0, 12)));
+  }
+
+  function renderHistory(){
+    const history = JSON.parse(localStorage.getItem('vegoQuoteHistory') || '[]');
+    $('historyContent').innerHTML = history.length
+      ? `<div class="history-list">${history.map(item => {
+          const when = new Date(item.createdAt).toLocaleString('vi-VN', { dateStyle: 'short', timeStyle: 'short' });
+          return `<div class="history-item"><div><b>${item.service} · ${item.km} km</b><small>${when}</small></div><strong>${money(item.total)}</strong></div>`;
+        }).join('')}</div>`
+      : '<div class="history-empty">Chưa có báo giá nào được lưu.</div>';
+  }
+
+  function applyPromo(){
+    const code = $('promoCode').value.trim().toUpperCase();
+    const status = $('promoStatus');
+    if(code === 'VEGO10'){
+      appliedPromo = code;
+      discount = .10;
+      status.textContent = 'Đã áp dụng VEGO10: giảm 10%, tối đa 20.000đ.';
+      status.classList.add('valid');
+      calculate();
+      toast('Đã áp dụng mã ưu đãi');
+      return;
+    }
+    appliedPromo = '';
+    discount = 0;
+    status.textContent = code ? 'Mã chưa hợp lệ. Hãy thử VEGO10.' : 'Nhập mã ưu đãi để nhận giảm giá.';
+    status.classList.remove('valid');
+    calculate();
+  }
+
+  function updateThemeIcon(){
+    $('themeBtn').textContent = document.body.classList.contains('dark') ? '☀' : '☾';
   }
 
   document.querySelectorAll('.service').forEach(el => {
@@ -1018,6 +1243,30 @@
   });
 
   $('calculateBtn').addEventListener('click', () => calculate(true));
+  $('applyPromo').addEventListener('click', applyPromo);
+  $('promoCode').addEventListener('keydown', event => { if(event.key === 'Enter') applyPromo(); });
+
+  $('themeBtn').addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+    localStorage.setItem('vegoTheme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    updateThemeIcon();
+  });
+
+  $('historyBtn').addEventListener('click', () => {
+    renderHistory();
+    $('historyModal').classList.add('open');
+  });
+  $('closeHistory').addEventListener('click', () => $('historyModal').classList.remove('open'));
+  $('historyModal').addEventListener('click', event => {
+    if(event.target === $('historyModal')) $('historyModal').classList.remove('open');
+  });
+  $('shareBtn').addEventListener('click', async () => {
+    const text = `VEGO · ${configs[current].name} ${$('distance').value || 0} km: ${$('total').textContent}`;
+    try {
+      if(navigator.share) await navigator.share({ title: 'Báo giá VEGO', text });
+      else { await navigator.clipboard.writeText(text); toast('Đã sao chép báo giá'); }
+    } catch(error) { if(error.name !== 'AbortError') toast('Không thể chia sẻ lúc này'); }
+  });
 
   document.querySelectorAll('.nav-item').forEach(item => {
     item.addEventListener('click', () => {
@@ -1026,6 +1275,10 @@
     });
   });
 
+  if(localStorage.getItem('vegoTheme') === 'dark') document.body.classList.add('dark');
+  const hour = new Date().getHours();
+  if(hour >= 23 || hour < 4) $('night').checked = true;
+  updateThemeIcon();
   updateForm();
   calculate();
 </script>
