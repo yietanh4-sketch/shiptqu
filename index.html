@@ -598,6 +598,18 @@
     body.dark .promo button{background:#f47b22;color:#17120e}
     body.dark .price-chip{background:rgba(20,165,107,.15);color:#76e1b4}
 
+    .auth-screen{min-height:100vh;display:grid;place-items:center;padding:24px 16px}
+    .auth-card{width:min(100%,460px);padding:24px;border:1px solid var(--line);border-radius:var(--radius-xl);background:rgba(255,255,255,.94);box-shadow:var(--shadow)}
+    .auth-brand{display:flex;align-items:center;gap:10px;margin-bottom:22px}.auth-brand .brand-logo{width:48px;height:48px}
+    .auth-card h1{margin:0;font-size:25px;letter-spacing:-.7px}.auth-card > p{margin:7px 0 20px;color:var(--muted);font-size:13px;line-height:1.5}
+    .auth-tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:18px;padding:4px;border-radius:14px;background:var(--surface-2)}
+    .auth-tab{height:40px;border:0;border-radius:10px;background:transparent;color:var(--muted);font-size:13px;font-weight:800;cursor:pointer}.auth-tab.active{background:var(--surface);color:var(--ink);box-shadow:0 3px 10px rgba(28,35,48,.08)}
+    .auth-form .field{margin-bottom:13px}.auth-form .primary{margin-top:3px}.auth-form.hidden{display:none}
+    .auth-message{min-height:18px;margin:12px 2px 0;color:#c34a2c;font-size:12px;font-weight:700;line-height:1.4}.auth-message.success{color:var(--success)}
+    .auth-note{margin:17px 0 0!important;text-align:center;color:var(--muted);font-size:11px;line-height:1.5}
+    body.dark .auth-card{background:rgba(28,32,40,.9);border-color:rgba(255,255,255,.09)}body.dark .auth-tabs{background:rgba(15,18,24,.7)}body.dark .auth-tab.active{background:rgba(255,255,255,.1);color:var(--ink)}
+    body.authenticated .auth-screen{display:none}body:not(.authenticated) .app,body:not(.authenticated) .bottom-nav,body:not(.authenticated) .zalo-contact,body:not(.authenticated) .toast,body:not(.authenticated) .modal-backdrop{display:none}
+
     .bottom-nav{
       position:fixed;
       left:50%;
@@ -834,6 +846,17 @@
 </head>
 
 <body>
+  <section class="auth-screen" id="authScreen" aria-label="Đăng nhập VEGO">
+    <div class="auth-card">
+      <div class="auth-brand"><div class="brand-logo">V</div><div class="brand-text"><strong>VEGO</strong><span>MOVE • EAT • DELIVER</span></div></div>
+      <h1 id="authTitle">Chào mừng trở lại</h1>
+      <p id="authSubtitle">Đăng nhập để lưu báo giá, đơn hàng và thông tin tài khoản của bạn.</p>
+      <div class="auth-tabs" role="tablist"><button class="auth-tab active" id="loginTab" type="button" role="tab">Đăng nhập</button><button class="auth-tab" id="registerTab" type="button" role="tab">Tạo tài khoản</button></div>
+      <form class="auth-form" id="loginForm"><div class="field"><label for="loginIdentity">Email hoặc số điện thoại</label><div class="input-wrap"><input id="loginIdentity" type="text" autocomplete="username" required></div></div><div class="field"><label for="loginPassword">Mật khẩu</label><div class="input-wrap"><input id="loginPassword" type="password" autocomplete="current-password" required></div></div><button class="primary" type="submit">Đăng nhập</button></form>
+      <form class="auth-form hidden" id="registerForm"><div class="field"><label for="registerName">Họ và tên</label><div class="input-wrap"><input id="registerName" type="text" autocomplete="name" required></div></div><div class="field"><label for="registerEmail">Email</label><div class="input-wrap"><input id="registerEmail" type="email" autocomplete="email" required></div></div><div class="field"><label for="registerPhone">Số điện thoại</label><div class="input-wrap"><input id="registerPhone" type="tel" autocomplete="tel" required></div></div><div class="field"><label for="registerPassword">Mật khẩu <small>Tối thiểu 6 ký tự</small></label><div class="input-wrap"><input id="registerPassword" type="password" autocomplete="new-password" minlength="6" required></div></div><div class="field"><label for="registerPasswordConfirm">Nhập lại mật khẩu</label><div class="input-wrap"><input id="registerPasswordConfirm" type="password" autocomplete="new-password" minlength="6" required></div></div><button class="primary" type="submit">Đăng ký tài khoản</button></form>
+      <div class="auth-message" id="authMessage" role="alert"></div><p class="auth-note">Thông tin được lưu trên thiết bị này. Không chia sẻ mật khẩu của bạn.</p>
+    </div>
+  </section>
   <main class="app">
     <header class="topbar">
       <div class="topbar-inner">
@@ -1071,7 +1094,7 @@
     <section class="app-view hidden" id="accountView" aria-label="Tài khoản">
       <div class="view-heading"><h1>Tài khoản</h1><p>Quản lý thông tin cá nhân và bảo mật.</p></div>
       <article class="profile-card"><div class="profile-photo">HA</div><h2 id="profileDisplayName">Hoàng Anh</h2><p>Khách hàng VEGO</p><span class="profile-badge">✓ Tài khoản đã xác thực</span></article>
-      <form class="profile-form" id="profileForm"><h2>Thông tin tài khoản</h2><div class="field"><label>Ảnh đại diện <small>Chữ cái đại diện</small></label><div class="input-wrap"><input id="profileAvatar" value="HA" maxlength="2"><span class="suffix">AVT</span></div></div><div class="field"><label>Tên tài khoản</label><div class="input-wrap"><input id="profileName" value="Hoàng Anh"><span class="suffix">USER</span></div></div><div class="field"><label>Số điện thoại</label><div class="input-wrap"><input id="profilePhone" type="tel" value="0777 893 730"><span class="suffix">VN</span></div></div><div class="field"><label>Mật khẩu</label><div class="input-wrap password-wrap"><input id="profilePassword" type="password" value="vego2026"><button class="show-password" id="showPassword" type="button">Hiện</button></div></div><button class="primary" type="submit">Lưu thay đổi</button></form>
+      <form class="profile-form" id="profileForm"><h2>Thông tin tài khoản</h2><div class="field"><label>Email đăng nhập <small>Có thể đổi</small></label><div class="input-wrap"><input id="profileEmail" type="email" autocomplete="email" required><span class="suffix">EMAIL</span></div></div><div class="field"><label>Ảnh đại diện <small>Chữ cái đại diện</small></label><div class="input-wrap"><input id="profileAvatar" value="HA" maxlength="2"><span class="suffix">AVT</span></div></div><div class="field"><label>Tên tài khoản</label><div class="input-wrap"><input id="profileName" value="Hoàng Anh"><span class="suffix">USER</span></div></div><div class="field"><label>Số điện thoại</label><div class="input-wrap"><input id="profilePhone" type="tel" value="0777 893 730"><span class="suffix">VN</span></div></div><div class="field"><label>Mật khẩu</label><div class="input-wrap password-wrap"><input id="profilePassword" type="password" value=""><button class="show-password" id="showPassword" type="button">Hiện</button></div></div><button class="primary" type="submit">Lưu thay đổi</button><button class="contact-shipper" id="logoutBtn" type="button">Đăng xuất</button></form>
     </section>
   </main>
 
@@ -1120,8 +1143,42 @@
   let appliedPromo = '';
   let lastQuote = null;
   const PROFILE_KEY = 'vegoCustomerProfile';
+  const ACCOUNT_KEY = 'vegoAccount';
+  const ACCOUNTS_KEY = 'vegoAccounts';
+  const SESSION_KEY = 'vegoSession';
+  const LOGOUT_KEY = 'vegoLoggedOut';
   const ORDER_KEY = 'vegoOrders';
   const storageFallback = {};
+
+  function normalizePhone(value){ return value.replace(/\D/g, ''); }
+  function getAccounts(){
+    try {
+      const saved = JSON.parse(storageGet(ACCOUNTS_KEY) || 'null');
+      if(Array.isArray(saved)) return saved;
+      const legacy = JSON.parse(storageGet(ACCOUNT_KEY) || 'null');
+      if(legacy){ storageSet(ACCOUNTS_KEY, JSON.stringify([legacy])); return [legacy]; }
+    } catch(error) {}
+    return [];
+  }
+  function saveAccounts(accounts){
+    storageSet(ACCOUNTS_KEY, JSON.stringify(accounts));
+  }
+  function getAccount(){
+    const accounts = getAccounts();
+    const session = storageGet(SESSION_KEY);
+    return accounts.find(account => account.email === session) || accounts[0] || null;
+  }
+  function setAuthMessage(message, success = false){ const element = $('authMessage'); element.textContent = message; element.classList.toggle('success', success); }
+  function openApp(account){ document.body.classList.add('authenticated'); storageSet(SESSION_KEY, account.email); storageRemove(LOGOUT_KEY); applyProfile(account); }
+  function logout(){ storageRemove(SESSION_KEY); storageSet(LOGOUT_KEY, 'true'); document.body.classList.remove('authenticated'); $('loginForm').reset(); setAuthMessage(''); setAuthMode('login'); window.scrollTo({top: 0, behavior: 'smooth'}); }
+  function setAuthMode(mode){
+    const isRegister = mode === 'register';
+    $('loginTab').classList.toggle('active', !isRegister); $('registerTab').classList.toggle('active', isRegister);
+    $('loginForm').classList.toggle('hidden', isRegister); $('registerForm').classList.toggle('hidden', !isRegister);
+    $('authTitle').textContent = isRegister ? 'Tạo tài khoản VEGO' : 'Chào mừng trở lại';
+    $('authSubtitle').textContent = isRegister ? 'Đăng ký một lần để lưu thông tin và theo dõi các đơn hàng của bạn.' : 'Đăng nhập để lưu báo giá, đơn hàng và thông tin tài khoản của bạn.';
+    setAuthMessage('');
+  }
 
   // Một số trình duyệt chặn localStorage khi mở file HTML trực tiếp.
   // Cookie là phương án dự phòng để dữ liệu vẫn tồn tại sau khi tải lại.
@@ -1494,6 +1551,7 @@
 
   function applyProfile(profile){
     if(!profile) return;
+    $('profileEmail').value = profile.email || '';
     $('profileAvatar').value = profile.avatar || 'HA';
     $('profileName').value = profile.name || 'Hoàng Anh';
     $('profilePhone').value = profile.phone || '';
@@ -1506,12 +1564,17 @@
 
   $('profileForm').addEventListener('submit', event => {
     event.preventDefault();
+    const account = getAccount();
     const profile = {
+      email: account ? account.email : $('profileEmail').value.trim(),
       avatar: $('profileAvatar').value.trim().toUpperCase() || 'HA',
       name: $('profileName').value.trim() || 'Khách hàng VEGO',
       phone: $('profilePhone').value.trim(),
       password: $('profilePassword').value
     };
+    const updatedAccount = {...account, ...profile};
+    saveAccounts(getAccounts().map(item => item.email === account.email ? updatedAccount : item));
+    storageSet(ACCOUNT_KEY, JSON.stringify(updatedAccount));
     if(!storageSet(PROFILE_KEY, JSON.stringify(profile))){
       toast('Trình duyệt đang chặn lưu dữ liệu');
       return;
@@ -1520,8 +1583,27 @@
     toast('Đã lưu thông tin tài khoản');
   });
 
+  $('loginTab').addEventListener('click', () => setAuthMode('login'));
+  $('registerTab').addEventListener('click', () => setAuthMode('register'));
+  $('loginForm').addEventListener('submit', event => {
+    event.preventDefault();
+    const identity = $('loginIdentity').value.trim().toLowerCase(); const phone = normalizePhone($('loginIdentity').value);
+    const account = getAccounts().find(item => (identity === item.email.toLowerCase() || phone === normalizePhone(item.phone)) && $('loginPassword').value === item.password);
+    if(!account){ setAuthMessage('Thông tin đăng nhập chưa đúng.'); return; }
+    openApp(account); setAuthMessage('Đăng nhập thành công.', true);
+  });
+  $('registerForm').addEventListener('submit', event => {
+    event.preventDefault(); const password = $('registerPassword').value;
+    if(password !== $('registerPasswordConfirm').value){ setAuthMessage('Mật khẩu nhập lại không khớp.'); return; }
+    const name = $('registerName').value.trim(); const account = {email: $('registerEmail').value.trim().toLowerCase(), phone: $('registerPhone').value.trim(), password, name, avatar: name.slice(0, 2).toUpperCase()};
+    const accounts = getAccounts();
+    if(accounts.some(item => item.email === account.email || normalizePhone(item.phone) === normalizePhone(account.phone))){ setAuthMessage('Email hoặc số điện thoại đã được dùng. Hãy nhập thông tin khác.'); return; }
+    saveAccounts([...accounts, account]); storageSet(ACCOUNT_KEY, JSON.stringify(account)); storageSet(PROFILE_KEY, JSON.stringify(account)); openApp(account);
+  });
+  $('logoutBtn').addEventListener('click', logout);
+
   if(storageGet('vegoTheme') === 'dark') document.body.classList.add('dark');
-  try { applyProfile(JSON.parse(storageGet(PROFILE_KEY) || 'null')); } catch { storageRemove(PROFILE_KEY); }
+  try { applyProfile(getAccount() || JSON.parse(storageGet(PROFILE_KEY) || 'null')); } catch { storageRemove(PROFILE_KEY); }
   const hour = new Date().getHours();
   if(hour >= 23 || hour < 4) $('night').checked = true;
   updateThemeIcon();
@@ -1529,6 +1611,8 @@
   calculate();
   renderOrders();
   renderServiceHistory();
+  const savedAccount = getAccount();
+  if(savedAccount && storageGet(LOGOUT_KEY) !== 'true' && (storageGet(SESSION_KEY) === savedAccount.email || storageGet(SESSION_KEY) === 'active')) openApp(savedAccount);
   setInterval(() => {
     renderOrders();
     renderServiceHistory();
